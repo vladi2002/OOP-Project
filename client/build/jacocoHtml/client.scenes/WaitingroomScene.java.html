@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WaitingroomScene.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">client</a> &gt; <a href="index.source.html" class="el_package">client.scenes</a> &gt; <span class="el_source">WaitingroomScene.java</span></div><h1>WaitingroomScene.java</h1><pre class="source lang-java linenums">package client.scenes;
+
+import client.IRandom;
+import client.MultiplayerGameManager;
+import client.utils.MultiplayerGameManagerDeserializer;
+import client.utils.MultiplayerGameManagerSerializer;
+import client.utils.ServerUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.google.inject.Inject;
+import commons.Multiplayer;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+
+public class WaitingroomScene implements Initializable {
+
+    private final ServerUtils server;
+    private final MainCtrl mainCtrl;
+    private Multiplayer player;
+    private int playerPosInList;
+<span class="nc" id="L32">    private boolean entered = false;</span>
+
+    @FXML
+    private TableView&lt;Multiplayer&gt; table;
+    @FXML
+    private TableColumn&lt;Multiplayer, String&gt; playerCol;
+
+    @FXML
+    private Label playerCounter;
+
+    private ObservableList&lt;Multiplayer&gt; players;
+
+    private boolean beginGame;
+
+    private MultiplayerGameManager manager;
+
+    @Inject private IRandom rand;
+
+    @Inject
+<span class="nc" id="L51">    public WaitingroomScene(ServerUtils server, MainCtrl mainCtrl) {</span>
+<span class="nc" id="L52">        this.mainCtrl = mainCtrl;</span>
+<span class="nc" id="L53">        this.server = server;</span>
+<span class="nc" id="L54">        beginGame = false;</span>
+<span class="nc" id="L55">    }</span>
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+<span class="nc" id="L59">        playerCol.setCellValueFactory(p -&gt; new SimpleStringProperty(p.getValue().name));</span>
+
+<span class="nc" id="L61">        server.registerMessages(&quot;/topic/multiplayers&quot;, Multiplayer.class, m -&gt; {</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            if(!entered){</span>
+<span class="nc" id="L63">                player = m;</span>
+            }
+<span class="nc" id="L65">            players.add(m);</span>
+<span class="nc" id="L66">            Platform.runLater(() -&gt; {</span>
+<span class="nc" id="L67">                playerCounter.setText(players.size() + &quot;/10&quot;);</span>
+<span class="nc" id="L68">            });</span>
+<span class="nc" id="L69">        });</span>
+
+<span class="nc" id="L71">        server.registerMessages(&quot;/topic/delete&quot;, Multiplayer.class, m -&gt; {</span>
+<span class="nc" id="L72">            players.remove(m);</span>
+<span class="nc" id="L73">            Platform.runLater(() -&gt; {</span>
+<span class="nc" id="L74">                playerCounter.setText(players.size() + &quot;/10&quot;);</span>
+<span class="nc" id="L75">            });</span>
+<span class="nc" id="L76">        });</span>
+
+<span class="nc" id="L78">        server.registerMessages(&quot;/topic/game&quot;, MultiplayerGameManager.class, m -&gt; {</span>
+<span class="nc bnc" id="L79" title="All 4 branches missed.">            if(player != null &amp;&amp; entered) {</span>
+<span class="nc" id="L80">                entered = false;</span>
+<span class="nc" id="L81">                beginGame = true;</span>
+<span class="nc" id="L82">                manager = m;</span>
+<span class="nc" id="L83">                manager.receivedMGM();</span>
+<span class="nc" id="L84">                beginGame = true;</span>
+<span class="nc" id="L85">                Platform.runLater(() -&gt; {</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                    if(beginGame) {</span>
+<span class="nc" id="L87">                        mainCtrl.multiPlayerScreen(player, manager);</span>
+<span class="nc" id="L88">                        beginGame = false;</span>
+                    }
+<span class="nc" id="L90">                });</span>
+            }
+<span class="nc" id="L92">        }); //removed &quot;, 0, 1&quot;</span>
+<span class="nc" id="L93">    }</span>
+
+    /**
+     * refresh is a method used to initialize the waiting room's elements
+     */
+    public void refresh() {
+<span class="nc" id="L99">        entered = true;</span>
+<span class="nc" id="L100">        players = FXCollections.observableList(server.getMultiplayersByGameID(0));</span>
+<span class="nc" id="L101">        playerPosInList = players.size()-1;</span>
+        //player = players.get(playerPosInList);
+<span class="nc" id="L103">        table.setItems(players);</span>
+<span class="nc" id="L104">        playerCounter.setText(players.size() + &quot;/10&quot;);</span>
+<span class="nc" id="L105">    }</span>
+
+    /**
+     * gomulti is a method used to start a new game, adding the players and generating the set of questions
+     */
+    public void gomulti() {
+<span class="nc" id="L111">        int gameID = server.startNewGame();</span>
+<span class="nc" id="L112">        player.setGameID(gameID); //updates gameID of local player object - server's gameID has already been updated</span>
+<span class="nc" id="L113">        MultiplayerGameManager m = new MultiplayerGameManager(gameID);</span>
+<span class="nc" id="L114">        m.generateQuestions(server, rand);</span>
+<span class="nc" id="L115">        m.addPlayers(players);</span>
+<span class="nc" id="L116">        ObjectMapper om = new ObjectMapper();</span>
+<span class="nc" id="L117">        SimpleModule sm = new SimpleModule();</span>
+<span class="nc" id="L118">        sm.addSerializer(MultiplayerGameManager.class, new MultiplayerGameManagerSerializer());</span>
+<span class="nc" id="L119">        sm.addDeserializer(MultiplayerGameManager.class, new MultiplayerGameManagerDeserializer()); //TMP ONLY</span>
+<span class="nc" id="L120">        om.registerModule(sm);</span>
+        try{
+<span class="nc" id="L122">            String mgmSerialized = om.writeValueAsString(m);</span>
+//            System.out.println(mgmSerialized);
+<span class="nc" id="L124">            MultiplayerGameManager mgmDeserialized = om.readValue(mgmSerialized, MultiplayerGameManager.class);</span>
+//            System.out.println(mgmDeserialized);
+<span class="nc" id="L126">        }catch(Exception e){</span>
+<span class="nc" id="L127">            e.printStackTrace();</span>
+<span class="nc" id="L128">        }</span>
+
+<span class="nc" id="L130">        server.send(&quot;/topic/game&quot;, m);</span>
+<span class="nc" id="L131">    }</span>
+
+    /**
+     * backToMenu is a method associated with the leave button for the waiting room scene
+     */
+    public void backToMenu(){
+<span class="nc" id="L137">        mainCtrl.leaveQuestion(1, 0);</span>
+<span class="nc" id="L138">    }</span>
+
+    /**
+     * leave is a method for what happens when user leaves the waiting room
+     */
+    public void leave(){
+<span class="nc" id="L144">        entered = false;</span>
+<span class="nc" id="L145">        server.send(&quot;/topic/delete&quot;,player);</span>
+<span class="nc" id="L146">        server.deleteMultiplayer(player.getId());</span>
+<span class="nc" id="L147">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

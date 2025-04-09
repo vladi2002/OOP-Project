@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="602.0" prefWidth="724.0" styleClass="background" stylesheets="client/scenes/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.MultiplayerLeaderboard">
+    <children>
+        <Pane layoutX="248.0" layoutY="130.0" prefHeight="347.0" prefWidth="231.0" styleClass="section" />
+        <VBox prefHeight="200.0" prefWidth="100.0" />
+        <Label alignment="CENTER" layoutX="263.0" layoutY="124.0" prefHeight="58.0" prefWidth="199.0" styleClass="leader_title" text="Leaderboard" textAlignment="CENTER">
+            <font>
+                <Font name="System Bold" size="28.0" />
+            </font>
+        </Label>
+        <Label fx:id="leaderboardposition1" alignment="CENTER" layoutX="313.0" layoutY="182.0" prefHeight="25.0" prefWidth="100.0" styleClass="leader_right" text="">
+            <font>
+                <Font size="15.0" />
+            </font></Label>
+        <Button fx:id="goToMenu" layoutX="309.0" layoutY="501.0" mnemonicParsing="false" onAction="#goback" prefHeight="36.0" prefWidth="106.0" text="Go to Menu" />
+        <Label fx:id="leaderboardposition2" alignment="CENTER" layoutX="313.0" layoutY="207.0" prefHeight="25.0" prefWidth="100.0" styleClass="leader_right" text="">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <Label fx:id="leaderboardposition3" alignment="CENTER" layoutX="313.0" layoutY="232.0" prefHeight="25.0" prefWidth="100.0" styleClass="leader_right" text="">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <Label fx:id="leaderboardposition4" alignment="CENTER" layoutX="313.0" layoutY="257.0" prefHeight="25.0" prefWidth="100.0" styleClass="leader_right" text="">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <Label fx:id="leaderboardposition5" alignment="CENTER" layoutX="313.0" layoutY="282.0" prefHeight="25.0" prefWidth="100.0" styleClass="leader_right" text="">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <Label fx:id="leaderboardposition6" alignment="CENTER" layoutX="313.0" layoutY="307.0" prefHeight="25.0" prefWidth="100.0" styleClass="leader_right" text="">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <Label fx:id="leaderboardposition7" alignment="CENTER" layoutX="313.0" layoutY="332.0" prefHeight="25.0" prefWidth="100.0" styleClass="leader_right" text="">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <Label fx:id="leaderboardposition8" alignment="CENTER" layoutX="313.0" layoutY="357.0" prefHeight="25.0" prefWidth="100.0" styleClass="leader_right" text="">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <Label fx:id="leaderboardposition9" alignment="CENTER" layoutX="313.0" layoutY="382.0" prefHeight="25.0" prefWidth="100.0" styleClass="leader_right" text="">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <Label fx:id="leaderboardposition10" alignment="CENTER" layoutX="313.0" layoutY="407.0" prefHeight="25.0" prefWidth="100.0" styleClass="leader_right" text="">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <Label fx:id="leaderboardposition11" alignment="CENTER" layoutX="312.0" layoutY="432.0" prefHeight="25.0" prefWidth="100.0" styleClass="leader_right" text="">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+      <ProgressIndicator fx:id="progressIndicator" layoutX="664.0" layoutY="546.0" prefHeight="36.0" prefWidth="48.0">
+         <effect>
+            <Shadow radius="9.415" width="18.66">
+               <color>
+                  <Color red="0.16732943058013916" green="0.30028849840164185" blue="0.6105263233184814" />
+               </color>
+            </Shadow>
+         </effect>
+      </ProgressIndicator>
+    </children>
+</AnchorPane>

@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MainCtrl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">client</a> &gt; <a href="index.source.html" class="el_package">client.scenes</a> &gt; <span class="el_source">MainCtrl.java</span></div><h1>MainCtrl.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2021 Delft University of Technology
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package client.scenes;
+
+import client.MultiplayerGameManager;
+import commons.Multiplayer;
+import commons.Player;
+import javafx.event.EventHandler;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+//import javax.swing.*;
+
+<span class="fc" id="L35">public class MainCtrl {</span>
+
+    private Stage primaryStage;
+    private Stage playersStage;
+
+    private PlayersOverviewCtrl playerOverviewCtrl;
+    private Scene playersOverview;
+
+    private AddPlayerCtrl addPlayerCtrl;
+    private Scene addPlayer;
+
+    private SplashScreen splashCtrl;
+    private Scene splash;
+
+    private SinglePlayer singleCtrl;
+    private Scene single;
+
+    private MultiplayerScreen multiCtrl;
+    private Scene multi;
+
+    private WaitingroomScene waitCtrl;
+    private Scene wait;
+
+    private Helpbutton helpCtrl;
+    private Scene help;
+
+    private Leaderboard leaderboardCtrl;
+    private Scene leaderboard_screen;
+
+    private MultiplayerLeaderboard multiplayerLeaderboardCtrl;
+    private Scene multiplayerLeaderboard_screen;
+
+    private LeaveGame leaveCtrl;
+    private Scene leave;
+
+<span class="fc" id="L70">    private List&lt;Timer&gt; timers = new ArrayList&lt;&gt;();</span>
+
+    /**
+     * initialize is a method used to initialize all the scene
+     * @param primaryStage
+     * @param secondaryStage
+     * @param playersOverview
+     * @param addPlayer
+     * @param splash
+     * @param single
+     * @param multi
+     * @param wait
+     * @param help
+     * @param leaderboard
+     * @param leave
+     */
+    public void initialize(Stage primaryStage, Stage secondaryStage, Pair&lt;PlayersOverviewCtrl, Parent&gt; playersOverview,
+                           Pair&lt;AddPlayerCtrl, Parent&gt; addPlayer, Pair&lt;SplashScreen, Parent&gt; splash, Pair&lt;SinglePlayer,
+                            Parent&gt; single, Pair&lt;MultiplayerScreen, Parent&gt; multi, Pair&lt;WaitingroomScene, Parent&gt; wait,
+                           Pair&lt;Helpbutton, Parent&gt; help, Pair&lt;Leaderboard, Parent&gt; leaderboard, Pair&lt;MultiplayerLeaderboard, Parent&gt; multiplayerLeaderboard, Pair&lt;LeaveGame, Parent&gt; leave){
+
+<span class="nc" id="L91">        this.primaryStage = primaryStage;</span>
+<span class="nc" id="L92">        this.playerOverviewCtrl = playersOverview.getKey();</span>
+<span class="nc" id="L93">        this.playersOverview = new Scene(playersOverview.getValue());</span>
+<span class="nc" id="L94">        this.playersStage = secondaryStage;</span>
+
+<span class="nc" id="L96">        this.addPlayerCtrl = addPlayer.getKey();</span>
+<span class="nc" id="L97">        this.addPlayer = new Scene(addPlayer.getValue());</span>
+
+<span class="nc" id="L99">        this.splashCtrl = splash.getKey();</span>
+<span class="nc" id="L100">        this.splash = new Scene(splash.getValue());</span>
+
+<span class="nc" id="L102">        this.singleCtrl = single.getKey();</span>
+<span class="nc" id="L103">        this.single = new Scene(single.getValue());</span>
+
+<span class="nc" id="L105">        this.multiCtrl = multi.getKey();</span>
+<span class="nc" id="L106">        this.multi = new Scene(multi.getValue());</span>
+
+<span class="nc" id="L108">        this.waitCtrl = wait.getKey();</span>
+<span class="nc" id="L109">        this.wait = new Scene(wait.getValue());</span>
+
+<span class="nc" id="L111">        this.helpCtrl = help.getKey();</span>
+<span class="nc" id="L112">        this.help = new Scene(help.getValue());</span>
+
+<span class="nc" id="L114">        this.leaderboardCtrl = leaderboard.getKey();</span>
+<span class="nc" id="L115">        this.leaderboard_screen = new Scene(leaderboard.getValue());</span>
+
+<span class="nc" id="L117">        this.multiplayerLeaderboardCtrl = multiplayerLeaderboard.getKey();</span>
+<span class="nc" id="L118">        this.multiplayerLeaderboard_screen = new Scene(multiplayerLeaderboard.getValue());</span>
+
+<span class="nc" id="L120">        this.leaveCtrl = leave.getKey();</span>
+<span class="nc" id="L121">        this.leave = new Scene(leave.getValue());</span>
+
+<span class="nc" id="L123">        showOverview();</span>
+<span class="nc" id="L124">        showPlayersOverview();</span>
+<span class="nc" id="L125">        primaryStage.show();</span>
+        //playersStage.show();
+        /*primaryStage.setOnCloseRequest(new EventHandler&lt;WindowEvent&gt;() {
+            @Override
+            public void handle(WindowEvent event) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });*/
+<span class="nc" id="L134">    }</span>
+
+    /**
+     * Checks if the player is currently seeing the leaving screen
+     * @return true if player is on exit screen, false otherwise
+     */
+    public boolean exitScreen(){
+<span class="nc" id="L141">        return primaryStage.getScene().equals(leave);</span>
+    }
+
+    /**
+     * showOverview is the method used for displaying the splashscreen
+     */
+    public void showOverview() {
+<span class="nc" id="L148">        primaryStage.setTitle(&quot;Energy Game&quot;);</span>
+<span class="nc" id="L149">        primaryStage.setScene(splash);</span>
+        //primaryStage.centerOnScreen();
+<span class="nc" id="L151">        splashCtrl.refresh();</span>
+<span class="nc" id="L152">        primaryStage.setOnCloseRequest(new EventHandler&lt;WindowEvent&gt;() {</span>
+            @Override
+            public void handle(WindowEvent event) {
+<span class="nc" id="L155">                event.consume();</span>
+<span class="nc" id="L156">                leaveQuestion(3,1);</span>
+
+<span class="nc" id="L158">            }</span>
+        });
+<span class="nc" id="L160">    }</span>
+
+    /**
+     * showPlayersOverview is the method used for displaying the database with players
+     */
+    public void showPlayersOverview() {
+<span class="nc" id="L166">        playersStage.setTitle(&quot;Players overview&quot;);</span>
+<span class="nc" id="L167">        playersStage.setScene(playersOverview);</span>
+<span class="nc" id="L168">        playersStage.centerOnScreen();</span>
+<span class="nc" id="L169">        playerOverviewCtrl.refresh();</span>
+<span class="nc" id="L170">    }</span>
+
+    /**
+     * singlePlayerScreen is the method user for displaying the single player scene
+     * @param p is the user which has saved the score and the name
+     */
+    public void singlePlayerScreen(Player p){
+<span class="nc" id="L177">        primaryStage.setTitle(&quot;Energy Game: Single Player&quot;);</span>
+<span class="nc" id="L178">        primaryStage.setScene(single);</span>
+        //primaryStage.centerOnScreen();
+<span class="nc" id="L180">        singleCtrl.load(p);</span>
+<span class="nc" id="L181">        singleCtrl.decreaseTime(20, -0.5);</span>
+        //single.setOnKeyPressed(e -&gt; singleCtrl.keyPressed(e));
+<span class="nc" id="L183">        primaryStage.setOnCloseRequest(new EventHandler&lt;WindowEvent&gt;() {</span>
+            @Override
+            public void handle(WindowEvent event) {
+<span class="nc" id="L186">                event.consume();</span>
+<span class="nc" id="L187">                leaveQuestion(0,1);</span>
+<span class="nc" id="L188">            }</span>
+        });
+<span class="nc" id="L190">    }</span>
+
+    /**
+     * multiPlayerScreen is the method user for displaying the multiplayer scene
+     * @param p is the user which has saved the score and the name
+     * @param m is a manager which will handle all of the question generation / timing in a multiplayer game
+     */
+    public void multiPlayerScreen(Multiplayer p, MultiplayerGameManager m){
+<span class="nc" id="L198">        primaryStage.setTitle(&quot;Energy Game: Multiplayer&quot;);</span>
+<span class="nc" id="L199">        primaryStage.setScene(multi);</span>
+<span class="nc" id="L200">        multiCtrl.load(p, m);</span>
+<span class="nc" id="L201">        multiCtrl.decreaseTime(20, -0.5);</span>
+        //single.setOnKeyPressed(e -&gt; singleCtrl.keyPressed(e));
+<span class="nc" id="L203">        primaryStage.setOnCloseRequest(new EventHandler&lt;WindowEvent&gt;() {</span>
+            @Override
+            public void handle(WindowEvent event) {
+<span class="nc" id="L206">                event.consume();</span>
+<span class="nc" id="L207">                leaveQuestion(2,1);</span>
+<span class="nc" id="L208">            }</span>
+        });
+<span class="nc" id="L210">    }</span>
+
+    /**
+     * Shows the multiplayer screen to the user
+     */
+    public void multiPlayerScreen(){
+<span class="nc" id="L216">        primaryStage.setTitle(&quot;Energy Game: Multiplayer&quot;);</span>
+<span class="nc" id="L217">        primaryStage.setScene(multi);</span>
+        //single.setOnKeyPressed(e -&gt; singleCtrl.keyPressed(e));
+<span class="nc" id="L219">        primaryStage.setOnCloseRequest(new EventHandler&lt;WindowEvent&gt;() {</span>
+            @Override
+            public void handle(WindowEvent event) {
+<span class="nc" id="L222">                event.consume();</span>
+<span class="nc" id="L223">                leaveQuestion(2,1);</span>
+<span class="nc" id="L224">            }</span>
+        });
+<span class="nc" id="L226">    }</span>
+
+    /**
+     * waiting is the method used for displaying the waiting room scene
+     */
+    public void waiting(){
+<span class="nc" id="L232">        primaryStage.setTitle(&quot;Energy Game: WaitingRoom&quot;);</span>
+<span class="nc" id="L233">        primaryStage.setScene(wait);</span>
+        //primaryStage.centerOnScreen();
+<span class="nc" id="L235">        waitCtrl.refresh();</span>
+<span class="nc" id="L236">        primaryStage.setOnCloseRequest(new EventHandler&lt;WindowEvent&gt;() {</span>
+            @Override
+            public void handle(WindowEvent event) {
+<span class="nc" id="L239">                event.consume();</span>
+<span class="nc" id="L240">                leaveQuestion(1,1);</span>
+<span class="nc" id="L241">            }</span>
+        });
+        //single.setOnKeyPressed(e -&gt; singleCtrl.keyPressed(e));
+<span class="nc" id="L244">    }</span>
+
+    /**
+     * leaveQuestion is the method used for displaying a scene where the user is asked if he wants to leave the game
+     * @param screenType the type of screen to be left (from 0 to 8)
+     * @param leaveType which type of leave does the user asks for (0 - back to spalsh screen, 1 - completely close the window)
+     */
+    public void leaveQuestion(int screenType, int leaveType){
+<span class="nc" id="L252">        primaryStage.setTitle(&quot;Leave the game&quot;);</span>
+<span class="nc" id="L253">        primaryStage.setScene(leave);</span>
+        //primaryStage.centerOnScreen();
+<span class="nc" id="L255">        leaveCtrl.refresh(singleCtrl, waitCtrl, multiCtrl, screenType, leaveType);</span>
+<span class="nc" id="L256">        primaryStage.setOnCloseRequest(new EventHandler&lt;WindowEvent&gt;() {</span>
+            @Override
+            public void handle(WindowEvent event) {
+<span class="nc" id="L259">                event.consume();</span>
+<span class="nc" id="L260">                leaveCtrl.cancelLeave();</span>
+<span class="nc" id="L261">            }</span>
+        });
+<span class="nc" id="L263">    }</span>
+
+    /**
+     * leaveQuestion is the method used for displaying a scene where the user is asked if he wants to leave the game. Use if player has to be set for leaderboard
+     * @param screenType the type of screen to be left (from 0 to 8)
+     * @param leaveType leaveType which type of leave does the user asks for (0 - back to spalsh screen, 1 - completely close the window)
+     * @param player the player playing the multiplayer game
+     */
+    public void leaveQuestion(int screenType, int leaveType, Multiplayer player) {
+<span class="nc" id="L272">        primaryStage.setTitle(&quot;Leave the game&quot;);</span>
+<span class="nc" id="L273">        primaryStage.setScene(leave);</span>
+<span class="nc" id="L274">        leaveCtrl.refresh(singleCtrl, waitCtrl, multiCtrl, screenType, leaveType, player);</span>
+<span class="nc" id="L275">        primaryStage.setOnCloseRequest(new EventHandler&lt;WindowEvent&gt;() {</span>
+            @Override
+            public void handle(WindowEvent event) {
+<span class="nc" id="L278">                event.consume();</span>
+<span class="nc" id="L279">                leaveCtrl.cancelLeave();</span>
+<span class="nc" id="L280">            }</span>
+        });
+<span class="nc" id="L282">    }</span>
+
+    /**
+     * leaveQuestion is the method used for displaying a scene where the user is asked if he wants to leave the game. Use if player has to be set for leaderboard
+     * @param screenType the type of screen to be left (from 0 to 8)
+     * @param leaveType leaveType which type of leave does the user asks for (0 - back to spalsh screen, 1 - completely close the window)
+     * @param player the player playing the single player game
+     */
+    public void leaveQuestion(int screenType, int leaveType, Player player) {
+<span class="nc" id="L291">        primaryStage.setTitle(&quot;Leave the game&quot;);</span>
+<span class="nc" id="L292">        primaryStage.setScene(leave);</span>
+<span class="nc" id="L293">        leaveCtrl.refresh(singleCtrl, waitCtrl, multiCtrl, screenType, leaveType, player);</span>
+<span class="nc" id="L294">        primaryStage.setOnCloseRequest(new EventHandler&lt;WindowEvent&gt;() {</span>
+            @Override
+            public void handle(WindowEvent event) {
+<span class="nc" id="L297">                event.consume();</span>
+<span class="nc" id="L298">                leaveCtrl.cancelLeave();</span>
+<span class="nc" id="L299">            }</span>
+        });
+<span class="nc" id="L301">    }</span>
+
+    /**
+     * backToSinglePlayer is the method used for displaying the single player scene again if the user changed his mind
+     */
+    public void backToSinglePlayer(){
+<span class="nc" id="L307">        primaryStage.setTitle(&quot;Energy Game: Single Player&quot;);</span>
+<span class="nc" id="L308">        primaryStage.setScene(single);</span>
+        //primaryStage.centerOnScreen();
+<span class="nc" id="L310">        primaryStage.setOnCloseRequest(new EventHandler&lt;WindowEvent&gt;() {</span>
+            @Override
+            public void handle(WindowEvent event) {
+<span class="nc" id="L313">                event.consume();</span>
+<span class="nc" id="L314">                leaveQuestion(0,1);</span>
+<span class="nc" id="L315">            }</span>
+        });
+<span class="nc" id="L317">    }</span>
+
+    /**
+     * backToWaiting is the method used for displaying the waiting room scene again if the user changed his mind
+     */
+    public void backToWaiting(){
+<span class="nc" id="L323">        primaryStage.setTitle(&quot;Energy Game: WaitingRoom&quot;);</span>
+<span class="nc" id="L324">        primaryStage.setScene(wait);</span>
+        //primaryStage.centerOnScreen();
+<span class="nc" id="L326">        primaryStage.setOnCloseRequest(new EventHandler&lt;WindowEvent&gt;() {</span>
+            @Override
+            public void handle(WindowEvent event) {
+<span class="nc" id="L329">                event.consume();</span>
+<span class="nc" id="L330">                leaveQuestion(1,1);</span>
+<span class="nc" id="L331">            }</span>
+        });
+<span class="nc" id="L333">    }</span>
+
+//    public void showAdd() {
+//        primaryStage.setTitle(&quot;Quotes: Adding Quote&quot;);
+//        primaryStage.setScene(add);
+//        add.setOnKeyPressed(e -&gt; addCtrl.keyPressed(e));
+//    }
+    public void showAddPlayer() {
+<span class="nc" id="L341">        playersStage.setTitle(&quot;Players: Adding Player&quot;);</span>
+<span class="nc" id="L342">        playersStage.setScene(addPlayer);</span>
+<span class="nc" id="L343">        playersStage.centerOnScreen();</span>
+<span class="nc" id="L344">        addPlayer.setOnKeyPressed(e -&gt; addPlayerCtrl.keyPressed(e));</span>
+<span class="nc" id="L345">    }</span>
+
+    /**
+     * showHelp is a method used to display the help scene, associated with the help button
+     */
+    public void showHelp(){
+<span class="nc" id="L351">        primaryStage.setTitle(&quot;Energy Game: Help Menu&quot;);</span>
+<span class="nc" id="L352">        primaryStage.setScene(help);</span>
+        //primaryStage.centerOnScreen();
+<span class="nc" id="L354">        primaryStage.setOnCloseRequest(new EventHandler&lt;WindowEvent&gt;() {</span>
+            @Override
+            public void handle(WindowEvent event) {
+<span class="nc" id="L357">                event.consume();</span>
+<span class="nc" id="L358">                leaveQuestion(4,1);</span>
+<span class="nc" id="L359">            }</span>
+        });
+<span class="nc" id="L361">    }</span>
+
+    /**
+     * showLeaderboard is the method used to display the leaderboard at the end of the game
+     * @param player is the user which has saved the score and the name
+     */
+    public void showLeaderboard(Player player){
+<span class="nc" id="L368">        primaryStage.setTitle(&quot;Energy Game: Leaderboard&quot;);</span>
+<span class="nc" id="L369">        primaryStage.setScene(leaderboard_screen);</span>
+<span class="nc" id="L370">        leaderboardCtrl.load(player, singleCtrl);</span>
+<span class="nc" id="L371">        primaryStage.setOnCloseRequest(new EventHandler&lt;WindowEvent&gt;() {</span>
+            @Override
+            public void handle(WindowEvent event) {
+<span class="nc" id="L374">                event.consume();</span>
+<span class="nc" id="L375">                leaveQuestion(5,1);</span>
+<span class="nc" id="L376">            }</span>
+        });
+<span class="nc" id="L378">    }</span>
+
+    /**
+     * Shows the leaderboard screen to the user in single player
+     */
+    public void backToLeaderboard(){
+<span class="nc" id="L384">        primaryStage.setTitle(&quot;Energy Game: Leaderboard&quot;);</span>
+<span class="nc" id="L385">        primaryStage.setScene(leaderboard_screen);</span>
+<span class="nc" id="L386">        primaryStage.setOnCloseRequest(new EventHandler&lt;WindowEvent&gt;() {</span>
+            @Override
+            public void handle(WindowEvent event) {
+<span class="nc" id="L389">                event.consume();</span>
+<span class="nc" id="L390">                leaveQuestion(5,1);</span>
+<span class="nc" id="L391">            }</span>
+        });
+<span class="nc" id="L393">    }</span>
+
+    /**
+     * showLeaderboard is the method used to display the multiplayer leaderboard at the middle and the end of the game
+     * @param player is the user which has saved the score and the name
+     */
+    public void showmultiplayerLeaderboard(Multiplayer player){
+<span class="nc" id="L400">        primaryStage.setTitle(&quot;Energy Game: Multiplayer Leaderboard&quot;);</span>
+<span class="nc" id="L401">        primaryStage.setScene(multiplayerLeaderboard_screen);</span>
+<span class="nc" id="L402">        multiplayerLeaderboardCtrl.refresh();</span>
+<span class="nc" id="L403">        multiplayerLeaderboardCtrl.load(player, multiCtrl);</span>
+<span class="nc" id="L404">        primaryStage.setOnCloseRequest(new EventHandler&lt;WindowEvent&gt;() {</span>
+            @Override
+            public void handle(WindowEvent event) {
+<span class="nc" id="L407">                event.consume();</span>
+<span class="nc" id="L408">                leaveQuestion(6,1);</span>
+<span class="nc" id="L409">            }</span>
+        });
+<span class="nc" id="L411">    }</span>
+
+    /**
+     * Shows the leaderboard screen to the user in multiplayer
+     */
+    public void backToMultiplayerLeaderboard(){
+<span class="nc" id="L417">        primaryStage.setTitle(&quot;Energy Game: Multiplayer Leaderboard&quot;);</span>
+<span class="nc" id="L418">        primaryStage.setScene(multiplayerLeaderboard_screen);</span>
+<span class="nc" id="L419">        primaryStage.setOnCloseRequest(new EventHandler&lt;WindowEvent&gt;() {</span>
+            @Override
+            public void handle(WindowEvent event) {
+<span class="nc" id="L422">                event.consume();</span>
+<span class="nc" id="L423">                leaveQuestion(6,1);</span>
+<span class="nc" id="L424">            }</span>
+        });
+<span class="nc" id="L426">    }</span>
+
+    /**
+     * startTimer is the method used to start the timer of the game
+     * @param t the timer
+     * @param task the task
+     * @param delay
+     * @param period the number of seconds
+     */
+    public void startTimer(Timer t, TimerTask task, int delay, int period){
+<span class="nc" id="L436">        timers.add(t);</span>
+<span class="nc" id="L437">        t.scheduleAtFixedRate(task,delay,period);</span>
+<span class="nc" id="L438">    }</span>
+
+    /**
+     * stopTimer is the method used to stop the timer
+     * @param t the timer
+     */
+    public void stopTimer(Timer t){
+<span class="nc bnc" id="L445" title="All 2 branches missed.">        if(timers.indexOf(t) &gt;= 0){</span>
+<span class="nc" id="L446">            timers.get(timers.indexOf(t)).cancel();</span>
+<span class="nc" id="L447">            timers.remove(t);</span>
+        }
+<span class="nc" id="L449">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

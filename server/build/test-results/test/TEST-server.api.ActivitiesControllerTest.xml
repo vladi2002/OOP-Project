@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="server.api.ActivitiesControllerTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2022-04-07T19:44:08" hostname="LAPTOP-VLADI2" time="0.063">
+  <properties/>
+  <testcase name="cannotGetNegId()" classname="server.api.ActivitiesControllerTest" time="0.055"/>
+  <testcase name="getByConsumptionTest()" classname="server.api.ActivitiesControllerTest" time="0.001"/>
+  <testcase name="getByNegConsumption()" classname="server.api.ActivitiesControllerTest" time="0.0"/>
+  <testcase name="getByIdTest()" classname="server.api.ActivitiesControllerTest" time="0.0"/>
+  <testcase name="consumptionIsRetrieved()" classname="server.api.ActivitiesControllerTest" time="0.0"/>
+  <testcase name="getByIdTestInvalid()" classname="server.api.ActivitiesControllerTest" time="0.001"/>
+  <testcase name="getByConsumptionTestInvalid()" classname="server.api.ActivitiesControllerTest" time="0.001"/>
+  <testcase name="idIsRetrieved()" classname="server.api.ActivitiesControllerTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

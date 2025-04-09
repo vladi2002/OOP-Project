@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="9.3">
+<file name="C:\Portable\Projects\repository-template\client\src\test\java\client\scenes\MainCtrlTest.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\test\java\client\scenes\QuestionTest.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\test\java\client\scenes\ServerUtilsTest.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\test\java\client\scenes\SinglePlayerTest.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\test\java\client\scenes\TestRandom.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\test\java\client\scenes\TestServerUtils.java">
+</file>
+</checkstyle>

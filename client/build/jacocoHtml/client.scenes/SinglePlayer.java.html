@@ -1,0 +1,711 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SinglePlayer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">client</a> &gt; <a href="index.source.html" class="el_package">client.scenes</a> &gt; <span class="el_source">SinglePlayer.java</span></div><h1>SinglePlayer.java</h1><pre class="source lang-java linenums">package client.scenes;
+
+import client.IRandom;
+import client.Question;
+import client.utils.ServerUtils;
+import com.google.inject.Inject;
+import commons.Player;
+import javafx.animation.AnimationTimer;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import java.util.*;
+
+public class SinglePlayer{
+
+    @Inject private ServerUtils server;
+    @Inject private MainCtrl mainCtrl;
+
+    private AnimationTimer time;
+
+    @FXML
+    private Label User_name;
+
+    @FXML
+    private Label timer;
+
+    @FXML
+    private Button submit;
+    @FXML
+    private Button eliminate;
+
+    @FXML
+    private TextField anstext;
+
+    @FXML
+    private ProgressBar timeBar;
+
+    @FXML
+    private Label question;
+
+    @FXML
+    private Button leave;
+
+    @FXML
+    private Label ans1;
+    @FXML
+    private Label ans2;
+    @FXML
+    private Label ans3;
+    @FXML
+    private Label ans4;
+    @FXML
+    private RadioButton rad1;
+    @FXML
+    private RadioButton rad2;
+    @FXML
+    private RadioButton rad3;
+    @FXML
+    private RadioButton rad4;
+    private ToggleGroup group;
+    private List&lt;Question&gt; questions;
+    private Iterator&lt;Question&gt; it;
+    private Question curr;
+
+    private Player player;
+
+    @Inject private IRandom rand;
+<span class="nc" id="L77">    public SinglePlayer() {</span>
+<span class="nc" id="L78">        player = null;</span>
+<span class="nc" id="L79">        group = new ToggleGroup();</span>
+<span class="nc" id="L80">        questions = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L81">    }</span>
+
+<span class="nc" id="L83">    private String correct_ans = &quot;&quot;;</span>
+<span class="nc" id="L84">    public int timeCountdown = 20;</span>
+
+    @FXML
+    AnchorPane pane;
+
+    @FXML
+    public Button dbpoints;
+
+    @FXML
+    Label points;
+
+    @FXML
+    Label cans;
+
+    @FXML
+    Label questioncounter;
+
+    @FXML
+    Label box1;
+
+    @FXML
+    Label box2;
+
+    @FXML
+    Label box3;
+
+    @FXML
+    Label box4;
+
+    @FXML
+    Label box5;
+
+    @FXML
+    Label box6;
+
+    @FXML
+    Label box7;
+
+    @FXML
+    Label box8;
+
+    @FXML
+    Label box9;
+
+    @FXML
+    Label box10;
+
+    @FXML
+    Label box11;
+
+    @FXML
+    Label box12;
+
+    @FXML
+    Label box13;
+
+    @FXML
+    Label box14;
+
+    @FXML
+    Label box15;
+
+    @FXML
+    Label box16;
+
+    @FXML
+    Label box17;
+
+    @FXML
+    Label box18;
+
+    @FXML
+    Label box19;
+
+    @FXML
+    Label box20;
+
+<span class="nc" id="L161">    int question_index=0;</span>
+
+    public void do1(ActionEvent event) {
+<span class="nc" id="L164">    }</span>
+
+    public void do2(ActionEvent event) {
+<span class="nc" id="L167">    }</span>
+
+    public void do3(ActionEvent event) {
+<span class="nc" id="L170">    }</span>
+
+    public void do4(ActionEvent event) {
+<span class="nc" id="L173">    }</span>
+
+    public void verify(ActionEvent event) {
+<span class="nc" id="L176">    }</span>
+
+    /**
+     * removeWrong is the method used for the &quot;Remove wrong answer&quot; joker. We take 2 random numbers corresponding to the
+     * index of the answer and if that answer is incorrect we remove it, in other case we take another number. In the
+     * end we will hide the button corresponding to the joker to show that the joker has been used.
+     */
+    public void removeWrong() {
+<span class="nc" id="L184">        int removed = -1;</span>
+<span class="nc" id="L185">        int i = 0;</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">        while (i != 2) {</span>
+<span class="nc" id="L187">            int random = rand.nextInt(3);</span>
+<span class="nc bnc" id="L188" title="All 4 branches missed.">            if (random != curr.getCorrectAnswer() &amp;&amp; random != removed ) {</span>
+<span class="nc" id="L189">                removed = random;</span>
+<span class="nc bnc" id="L190" title="All 5 branches missed.">                switch (random) {</span>
+                    case 0:
+<span class="nc" id="L192">                        ans1.setVisible(false);</span>
+<span class="nc" id="L193">                        rad3.setDisable(true);</span>
+<span class="nc" id="L194">                        i++;</span>
+<span class="nc" id="L195">                        break;</span>
+                    case 1:
+<span class="nc" id="L197">                        ans2.setVisible(false);</span>
+<span class="nc" id="L198">                        rad2.setDisable(true);</span>
+<span class="nc" id="L199">                        i++;</span>
+<span class="nc" id="L200">                        break;</span>
+                    case 2:
+<span class="nc" id="L202">                        ans3.setVisible(false);</span>
+<span class="nc" id="L203">                        rad1.setDisable(true);</span>
+<span class="nc" id="L204">                        i++;</span>
+<span class="nc" id="L205">                        break;</span>
+                    case 3:
+<span class="nc" id="L207">                        ans4.setVisible(false);</span>
+<span class="nc" id="L208">                        rad4.setDisable(true);</span>
+<span class="nc" id="L209">                        i++;</span>
+                        break;
+                }
+            }
+<span class="nc" id="L213">        }</span>
+<span class="nc" id="L214">        eliminate.setVisible(false);</span>
+<span class="nc" id="L215">    }</span>
+
+    /**
+     * addpoints5 is the method used to calculate and add the points to the player's score for the 5th type of question
+     * (the open question). It is used a formula based on how far is the user's answer from the correct answer( a
+     * maximum difference of 20): 10*(20-|x-y|), where x represents player's input and y represents the correct answer.
+     * If the double points joker has been activated, then the player gets a double amount of points for that specific
+     * round. Also this method calls the setwrongtrue method.
+     * @param player is the user which has saved the score and the name
+     */
+    public void addpoints5(Player player) {
+<span class="nc" id="L226">        int input = Integer.parseInt(anstext.getText());</span>
+<span class="nc" id="L227">        int correct = Integer.parseInt(correct_ans);</span>
+<span class="nc" id="L228">        int score = Integer.parseInt(points.getText());</span>
+<span class="nc bnc" id="L229" title="All 4 branches missed.">        if(input-correct&lt;=20&amp;&amp;input-correct&gt;=0) {</span>
+<span class="nc bnc" id="L230" title="All 2 branches missed.">            if(dbpoints.getText().equals(&quot;first&quot;)) {</span>
+<span class="nc" id="L231">                dbpoints.textProperty().setValue(&quot;used&quot;);</span>
+<span class="nc" id="L232">                score = Integer.parseInt(points.getText()) + 20 * (20 - input + correct);</span>
+            }
+            else {
+<span class="nc" id="L235">                score = Integer.parseInt(points.getText()) + 10 * (20 - input + correct);</span>
+            }
+<span class="nc" id="L237">            setwrongtrue(true);</span>
+        }
+<span class="nc bnc" id="L239" title="All 4 branches missed.">        else if(correct-input&lt;=20 &amp;&amp; correct-input&gt;=0) {</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">            if(dbpoints.getText().equals(&quot;first&quot;)) {</span>
+<span class="nc" id="L241">                dbpoints.textProperty().setValue(&quot;used&quot;);</span>
+<span class="nc" id="L242">                score = Integer.parseInt(points.getText()) + 20 * (20 - correct + input);</span>
+            }
+            else {
+<span class="nc" id="L245">                score = Integer.parseInt(points.getText()) + 10 * (20 - correct + input);</span>
+            }
+<span class="nc" id="L247">            setwrongtrue(true);</span>
+        }
+        else
+<span class="nc" id="L250">            setwrongtrue(false);</span>
+<span class="nc" id="L251">        player.score = score;</span>
+<span class="nc" id="L252">        points.textProperty().setValue(score+&quot;&quot;);</span>
+<span class="nc" id="L253">    }</span>
+
+    /**
+     * getCurr is a method used to get the current question
+     * @return the current questions
+     */
+    public Question getCurr() {
+<span class="nc" id="L260">        return curr;</span>
+    }
+
+    /**
+     * setPoints is a method used to calculate and add the points to the player's score for the first 4 types of questions
+     * (multiple choice questions).It is used a formula based on how much time has left: 10* timeleft. If the
+     * double points joker has been activated, then the player gets a double amount of points for that specific round.
+     * @param player is the user which has saved the score and the name
+     */
+    public void setPoints(Player player){
+        long score;
+<span class="nc bnc" id="L271" title="All 2 branches missed.">        if(dbpoints.getText().equals(&quot;first&quot;)) {</span>
+<span class="nc" id="L272">            dbpoints.setText(&quot;used&quot;);</span>
+<span class="nc" id="L273">            score = Integer.parseInt(points.getText()) + 2 * timeCountdown * 10;</span>
+        }
+        else {
+<span class="nc" id="L276">            score = Integer.parseInt(points.getText()) + timeCountdown * 10;</span>
+        }
+<span class="nc" id="L278">        player.score = (int)score;</span>
+<span class="nc" id="L279">        points.textProperty().setValue(score+&quot;&quot;);</span>
+<span class="nc" id="L280">    }</span>
+
+    /**
+     * removedouble is a method used to modify the message on the double points joker button which helps us to verify if
+     * the button was already used
+     */
+    public void removedouble(){
+<span class="nc bnc" id="L287" title="All 2 branches missed.">        if(dbpoints.getText().equals(&quot;first&quot;))</span>
+<span class="nc" id="L288">            dbpoints.setText(&quot;used&quot;);</span>
+<span class="nc" id="L289">    }</span>
+
+    public void init(MouseEvent mouseEvent) {
+
+<span class="nc" id="L293">    }</span>
+
+    /**
+     * getPlayer is a method used to return the player
+     * @return the player who is actually playing the game, containing the name and score
+     */
+    public Player getPlayer() {
+<span class="nc" id="L300">        return player;</span>
+    }
+
+    /**
+     * ToggleGroup is a method used to return the ToggleGroup
+     * @return the togglegroup containing the buttons
+     */
+    public ToggleGroup getGroup() {
+<span class="nc" id="L308">        return group;</span>
+    }
+
+    /**
+     * getSubmit is a method used to return the submit button
+     * @return the submit button
+     */
+    public Button getSubmit() {
+<span class="nc" id="L316">        return submit;</span>
+    }
+
+    /**
+     * getAnstext is a method used to return the textfield anstext, which represents the textfield that contains the value
+     * for the answer in 5th type of question
+     * @return the anstext texfield
+     */
+    public TextField getAnstext() {
+<span class="nc" id="L325">        return anstext;</span>
+    }
+
+    /**
+     * getTimer is a method used to return the Label containing the timer
+     * @return the label timer
+     */
+    public Label getTimer() {
+<span class="nc" id="L333">        return timer;</span>
+    }
+
+    /**
+     * getTimeBar is a method used to return the ProgressBar containing the timeBar
+     * @return the ProgressBar for the timeBar
+     */
+<span class="nc" id="L340">    public ProgressBar getTimeBar(){return timeBar;}</span>
+
+    /**
+     * load is a method used to create the toggle group, to create the set of questions for the game, initializing the
+     * labels and going from question to question, verifying if there exists other questions. It sets the initial status
+     * of the buttons for submit and jokers. Also, the method calls a method which shows the correct answer.
+     * @param p is the user which has saved the score and the name
+     */
+    public void load(Player p) {
+<span class="nc" id="L349">        player = p;</span>
+<span class="nc" id="L350">        rad1.setToggleGroup(group);</span>
+<span class="nc" id="L351">        rad2.setToggleGroup(group);</span>
+<span class="nc" id="L352">        rad3.setToggleGroup(group);</span>
+<span class="nc" id="L353">        rad4.setToggleGroup(group);</span>
+<span class="nc" id="L354">        anstext.textProperty().addListener(new ChangeListener&lt;String&gt;() {</span>
+            @Override
+            public void changed(ObservableValue&lt;? extends String&gt; observable, String oldValue, String newValue) {
+<span class="nc bnc" id="L357" title="All 2 branches missed.">                if(anstext.getText().equals(&quot;&quot;)){</span>
+<span class="nc" id="L358">                    submit.setDisable(true);</span>
+                }
+                else
+<span class="nc" id="L361">                    submit.setDisable(false);</span>
+<span class="nc" id="L362">            }</span>
+        });
+
+<span class="nc" id="L365">        rad1.setOnMouseClicked(event -&gt; {</span>
+<span class="nc bnc" id="L366" title="All 2 branches missed.">            if(event.getButton() == MouseButton.PRIMARY)</span>
+<span class="nc" id="L367">                submit.setDisable(false);</span>
+<span class="nc" id="L368">        });</span>
+
+<span class="nc" id="L370">        rad2.setOnMouseClicked(event -&gt; {</span>
+<span class="nc bnc" id="L371" title="All 2 branches missed.">            if(event.getButton() == MouseButton.PRIMARY)</span>
+<span class="nc" id="L372">                submit.setDisable(false);</span>
+<span class="nc" id="L373">        });</span>
+
+<span class="nc" id="L375">        rad3.setOnMouseClicked(event -&gt; {</span>
+<span class="nc bnc" id="L376" title="All 2 branches missed.">                if(event.getButton() == MouseButton.PRIMARY)</span>
+<span class="nc" id="L377">                    submit.setDisable(false);</span>
+<span class="nc" id="L378">        });</span>
+
+<span class="nc" id="L380">        rad4.setOnMouseClicked(event -&gt; {</span>
+<span class="nc bnc" id="L381" title="All 2 branches missed.">            if(event.getButton() == MouseButton.PRIMARY)</span>
+<span class="nc" id="L382">                submit.setDisable(false);</span>
+<span class="nc" id="L383">        });</span>
+
+<span class="nc" id="L385">        submit.setOnMouseClicked(new EventHandler&lt;MouseEvent&gt;() {</span>
+            @Override
+            public void handle(MouseEvent event) {
+<span class="nc" id="L388">                showCorrect();</span>
+<span class="nc" id="L389">                checkCorrect(player);</span>
+<span class="nc" id="L390">                eliminate.setDisable(true);</span>
+<span class="nc" id="L391">                dbpoints.setDisable(true);</span>
+<span class="nc" id="L392">                submit.setDisable(false);</span>
+<span class="nc" id="L393">            }</span>
+        });
+<span class="nc" id="L395">        EventHandler&lt;KeyEvent&gt; event = new EventHandler&lt;KeyEvent&gt;() {</span>
+            @Override
+            public void handle(KeyEvent event) {
+<span class="nc bnc" id="L398" title="All 4 branches missed.">                if (event.getCharacter().equals(&quot; &quot;) &amp;&amp; submit.isVisible()){</span>
+<span class="nc" id="L399">                    showCorrect();</span>
+<span class="nc" id="L400">                    checkCorrect(player);</span>
+                }
+<span class="nc bnc" id="L402" title="All 4 branches missed.">                if (!pane.isFocused()&amp;&amp;!anstext.isFocused()){</span>
+<span class="nc" id="L403">                    pane.requestFocus();</span>
+                }
+<span class="nc" id="L405">            }</span>
+        };
+<span class="nc" id="L407">        pane.addEventHandler(KeyEvent.ANY, event);</span>
+<span class="nc" id="L408">        pane.setOnKeyPressed(new EventHandler&lt;KeyEvent&gt;() {</span>
+            @Override
+            public void handle(KeyEvent event) {
+<span class="nc bnc" id="L411" title="All 7 branches missed.">                switch (event.getCode()) {</span>
+                    case Q:
+<span class="nc bnc" id="L413" title="All 2 branches missed.">                        if(eliminate.isVisible()){</span>
+<span class="nc" id="L414">                            removeWrong();</span>
+                        }
+                        break;
+                    case W:
+<span class="nc bnc" id="L418" title="All 2 branches missed.">                        if (dbpoints.isVisible()){</span>
+<span class="nc" id="L419">                            morep();</span>
+                        }
+                        break;
+                    case DIGIT1:
+<span class="nc bnc" id="L423" title="All 2 branches missed.">                        if (!rad3.isDisabled()) {</span>
+<span class="nc" id="L424">                            rad3.setSelected(true);</span>
+<span class="nc" id="L425">                            submit.setDisable(false);</span>
+                        }
+                        break;
+                    case DIGIT2:
+<span class="nc bnc" id="L429" title="All 2 branches missed.">                        if (!rad2.isDisabled()) {</span>
+<span class="nc" id="L430">                            rad2.setSelected(true);</span>
+<span class="nc" id="L431">                            submit.setDisable(false);</span>
+                        }
+                        break;
+                    case DIGIT3:
+<span class="nc bnc" id="L435" title="All 2 branches missed.">                        if (!rad1.isDisabled()) {</span>
+<span class="nc" id="L436">                            rad1.setSelected(true);</span>
+<span class="nc" id="L437">                            submit.setDisable(false);</span>
+                        }
+                        break;
+                    case DIGIT4:
+<span class="nc bnc" id="L441" title="All 2 branches missed.">                        if (!rad4.isDisabled()) {</span>
+<span class="nc" id="L442">                            rad4.setSelected(true);</span>
+<span class="nc" id="L443">                            submit.setDisable(false);</span>
+                        }
+                        break;
+                }
+<span class="nc" id="L447">            }</span>
+        });
+
+<span class="nc bnc" id="L450" title="All 2 branches missed.">        for (int i = 0; i &lt; 20; i++) {</span>
+            //decreaseTime(timeCountdown);
+<span class="nc" id="L452">            Question q = new Question(server, rand);</span>
+<span class="nc" id="L453">            q.generateQuestion();</span>
+<span class="nc" id="L454">            questions.add(q);</span>
+        }
+<span class="nc" id="L456">        User_name.textProperty().bind(new SimpleStringProperty(player.getName()));</span>
+<span class="nc" id="L457">        points.textProperty().setValue(player.getScore()+&quot;&quot;);</span>
+//        points.textProperty().bind(new SimpleStringProperty(getPlayer().getScore()+&quot;&quot;));
+<span class="nc" id="L459">        it = questions.iterator();</span>
+<span class="nc" id="L460">        time = new SinglePlayerTimer(0.05, this);</span>
+<span class="nc bnc" id="L461" title="All 2 branches missed.">        if (it.hasNext()) {</span>
+<span class="nc" id="L462">            curr = it.next();</span>
+<span class="nc" id="L463">            refreshQuestion();</span>
+<span class="nc" id="L464">            eliminate.setDisable(false);</span>
+<span class="nc bnc" id="L465" title="All 2 branches missed.">            if(curr.getType() == 4)</span>
+<span class="nc" id="L466">                eliminate.setDisable(true);</span>
+<span class="nc" id="L467">            dbpoints.setDisable(false);</span>
+<span class="nc" id="L468">            time.start();</span>
+        }
+<span class="nc" id="L470">    }</span>
+
+    /**
+     * advanceNextQuestion is a method used to advance through the questions, verifying if there are other questions left.
+     * If there aren't questions left, the leaderboard si displayed and timer is stopped.
+     * @param timer
+     */
+    public void advanceNextQuestion(SinglePlayerTimer timer) {
+<span class="nc bnc" id="L478" title="All 2 branches missed.">        if (it.hasNext())</span>
+<span class="nc" id="L479">            {curr = it.next();</span>
+            }
+        else {
+<span class="nc" id="L482">            server.addPlayer(player);</span>
+<span class="nc" id="L483">            timer.stop();</span>
+<span class="nc bnc" id="L484" title="All 2 branches missed.">            if (!mainCtrl.exitScreen()){</span>
+<span class="nc" id="L485">                mainCtrl.showLeaderboard(player);</span>
+            }
+            else {
+<span class="nc" id="L488">                mainCtrl.leaveQuestion(8,0, player);</span>
+            }
+<span class="nc" id="L490">            onLeave();</span>
+        }
+<span class="nc" id="L492">    }</span>
+
+    /**
+     * hasNextQuestion is a method used to verify if there is one more question
+     * @return true or false if there are questions left
+     */
+    public boolean hasNextQuestion() {
+<span class="nc" id="L499">        return it.hasNext();</span>
+    }
+
+    /**
+     * refreshQuestions is a method used to modify the labels and buttons at the beginning of a new question, depending
+     * on the type of that question.
+     */
+    public void refreshQuestion() {
+<span class="nc bnc" id="L507" title="All 2 branches missed.">        if(curr.getType() == 4){</span>
+<span class="nc" id="L508">            eliminate.setDisable(true);</span>
+        }
+        else
+<span class="nc" id="L511">            eliminate.setDisable(false);</span>
+<span class="nc" id="L512">        question.textProperty().bind(new SimpleStringProperty(curr.getQuestionText()));</span>
+<span class="nc" id="L513">        submit.setVisible(true);</span>
+<span class="nc bnc" id="L514" title="All 2 branches missed.">        if(question_index==0)</span>
+<span class="nc" id="L515">            reset();</span>
+<span class="nc" id="L516">        question_index++;</span>
+<span class="nc" id="L517">        questioncounter.setText(question_index+&quot;/20&quot;);</span>
+       // eliminate.setDisable(false);
+<span class="nc" id="L519">        submit.setDisable(true);</span>
+<span class="nc" id="L520">        dbpoints.setDisable(false);</span>
+        //if(curr.getType() != 4)
+
+<span class="nc bnc" id="L523" title="All 2 branches missed.">        if (curr.getType() != 4) {</span>
+<span class="nc" id="L524">            group.getToggles().forEach(t -&gt; ((RadioButton)t).setDisable(false));</span>
+<span class="nc" id="L525">            rad1.setVisible(true);</span>
+<span class="nc" id="L526">            rad2.setVisible(true);</span>
+<span class="nc" id="L527">            rad3.setVisible(true);</span>
+<span class="nc" id="L528">            rad4.setVisible(true);</span>
+<span class="nc" id="L529">            ans1.setVisible(true);</span>
+<span class="nc" id="L530">            ans2.setVisible(true);</span>
+<span class="nc" id="L531">            ans3.setVisible(true);</span>
+<span class="nc" id="L532">            ans4.setVisible(true);</span>
+<span class="nc" id="L533">            ans1.textProperty().bind(new SimpleStringProperty(curr.getAnswers().get(0)));</span>
+<span class="nc" id="L534">            ans2.textProperty().bind(new SimpleStringProperty(curr.getAnswers().get(1)));</span>
+<span class="nc" id="L535">            ans3.textProperty().bind(new SimpleStringProperty(curr.getAnswers().get(2)));</span>
+<span class="nc" id="L536">            ans4.textProperty().bind(new SimpleStringProperty(curr.getAnswers().get(3)));</span>
+<span class="nc" id="L537">            anstext.setVisible(false);</span>
+<span class="nc" id="L538">            cans.setVisible(false);</span>
+<span class="nc" id="L539">            group.getToggles().forEach(t -&gt; t.setSelected(false));</span>
+<span class="nc" id="L540">            ans1.setTextFill(Color.web(&quot;000000&quot;));</span>
+<span class="nc" id="L541">            ans2.setTextFill(Color.web(&quot;000000&quot;));</span>
+<span class="nc" id="L542">            ans3.setTextFill(Color.web(&quot;000000&quot;));</span>
+<span class="nc" id="L543">            ans4.setTextFill(Color.web(&quot;000000&quot;));</span>
+        } else {
+<span class="nc bnc" id="L545" title="All 2 branches missed.">            if(!anstext.getText().equals(&quot;&quot;))</span>
+<span class="nc" id="L546">                anstext.setText(&quot;&quot;);</span>
+<span class="nc" id="L547">            anstext.setVisible(true);</span>
+<span class="nc" id="L548">            cans.setVisible(false);</span>
+<span class="nc" id="L549">            rad1.setVisible(false);</span>
+<span class="nc" id="L550">            rad2.setVisible(false);</span>
+<span class="nc" id="L551">            rad3.setVisible(false);</span>
+<span class="nc" id="L552">            rad4.setVisible(false);</span>
+<span class="nc" id="L553">            ans1.setVisible(false);</span>
+<span class="nc" id="L554">            ans2.setVisible(false);</span>
+<span class="nc" id="L555">            ans3.setVisible(false);</span>
+<span class="nc" id="L556">            ans4.setVisible(false);</span>
+        }
+<span class="nc" id="L558">    }</span>
+
+    public void openAnswer() {
+<span class="nc" id="L561">        checkCorrect(player);</span>
+<span class="nc" id="L562">        showCorrect();</span>
+<span class="nc" id="L563">    }</span>
+
+    /**
+     * checkCorrect is a method used to verify if the selected answer is correct, calling the method for the question
+     * counter and also displays the correct answer for the 5th question type.
+     * @param player is the user which has saved the score and the name
+     */
+    public void checkCorrect(Player player) {
+<span class="nc" id="L571">        long correct = curr.getCorrectAnswer();</span>
+<span class="nc bnc" id="L572" title="All 2 branches missed.">        if (curr.getType() != 4) {</span>
+<span class="nc" id="L573">            int selected = -1;</span>
+<span class="nc bnc" id="L574" title="All 2 branches missed.">            if (group.getSelectedToggle() != null){</span>
+<span class="nc bnc" id="L575" title="All 2 branches missed.">                if (group.getSelectedToggle().equals(rad1)) selected = 2;</span>
+<span class="nc bnc" id="L576" title="All 2 branches missed.">                else if (group.getSelectedToggle().equals(rad2)) selected = 1;</span>
+<span class="nc bnc" id="L577" title="All 2 branches missed.">                else if (group.getSelectedToggle().equals(rad3)) selected = 0;</span>
+<span class="nc bnc" id="L578" title="All 2 branches missed.">                else if (group.getSelectedToggle().equals(rad4)) selected = 3;</span>
+            }
+<span class="nc bnc" id="L580" title="All 2 branches missed.">            if (correct == selected) {</span>
+                //method to increment score
+<span class="nc" id="L582">                setwrongtrue(true);</span>
+<span class="nc" id="L583">                setPoints(player);</span>
+            }
+            else{
+<span class="nc" id="L586">                setwrongtrue(false);</span>
+<span class="nc" id="L587">                removedouble();</span>
+            }
+<span class="nc" id="L589">        } else {</span>
+<span class="nc" id="L590">            correct_ans = curr.getAnswers().get(0);</span>
+<span class="nc" id="L591">            addpoints5(player);</span>
+        }
+<span class="nc" id="L593">    }</span>
+
+    /**
+     * showCorrect is a method used to show the correct answer for the first 4 types of questions, modifying the colour
+     * for the correct answer or making visible the label that contains the correct answer for the 5th type.
+     */
+    public void showCorrect() {
+<span class="nc" id="L600">        submit.setVisible(false);</span>
+<span class="nc bnc" id="L601" title="All 2 branches missed.">        if (curr.getType() != 4) {</span>
+<span class="nc" id="L602">            group.getToggles().forEach(t -&gt; ((RadioButton) t).setDisable(true));</span>
+<span class="nc bnc" id="L603" title="All 2 branches missed.">            for (int i = 0; i &lt; 4; i++) {</span>
+<span class="nc bnc" id="L604" title="All 2 branches missed.">                if (i == curr.getCorrectAnswer()) {</span>
+<span class="nc bnc" id="L605" title="All 5 branches missed.">                    switch (i) {</span>
+                        case 0:
+<span class="nc" id="L607">                            ans1.setTextFill(Color.web(&quot;#61ab61&quot;));</span>
+<span class="nc" id="L608">                            break;</span>
+                        case 1:
+<span class="nc" id="L610">                            ans2.setTextFill(Color.web(&quot;#61ab61&quot;));</span>
+<span class="nc" id="L611">                            break;</span>
+                        case 2:
+<span class="nc" id="L613">                            ans3.setTextFill(Color.web(&quot;#61ab61&quot;));</span>
+<span class="nc" id="L614">                            break;</span>
+                        case 3:
+<span class="nc" id="L616">                            ans4.setTextFill(Color.web(&quot;#61ab61&quot;));</span>
+                            break;
+                    }
+                }
+            }
+        } else {
+<span class="nc" id="L622">            cans.textProperty().setValue(&quot;The correct answer is &quot; + curr.getAnswers().get(0));</span>
+<span class="nc" id="L623">            cans.setVisible(true);</span>
+        }
+<span class="nc" id="L625">    }</span>
+
+    /**
+     * morep is a method that makes the dbpoints button invisible to show that it was used.
+     */
+    public void morep() {
+<span class="nc" id="L631">        dbpoints.setVisible(false);</span>
+<span class="nc" id="L632">        dbpoints.setText(&quot;first&quot;);</span>
+<span class="nc" id="L633">    }</span>
+
+    /**
+     * backToMenu is a method associated with the leave button and if the player press it, he will leave the game
+     */
+    public void backToMenu(){
+<span class="nc" id="L639">        mainCtrl.leaveQuestion(0, 0);</span>
+<span class="nc" id="L640">    }</span>
+
+    /**
+     * onLeave is a method used to initialize again the timers and labels after leaving the game.
+     */
+    public void onLeave(){
+<span class="nc" id="L646">        dbpoints.setVisible(true);</span>
+<span class="nc" id="L647">        dbpoints.setText(&quot;Double points&quot;);</span>
+<span class="nc" id="L648">        eliminate.setVisible(true);</span>
+<span class="nc" id="L649">        questions=new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L650">        time.stop();</span>
+<span class="nc" id="L651">        question_index=0;</span>
+<span class="nc" id="L652">        timeCountdown = 20;</span>
+<span class="nc" id="L653">    }</span>
+
+    /**
+     * reset is a method used to make the labels containing the correctness of questions(true or false) empty at the
+     * beginning of the game.
+     */
+    public void reset(){
+<span class="nc" id="L660">        Label[] labels= new Label[]{box1,box2,box3,box4,box5,box6,box7,box8,box9,box10,box11,box12,box13,box14,box15,</span>
+                box16,box17,box18,box19,box20};
+<span class="nc bnc" id="L662" title="All 2 branches missed.">        for(int i=0;i&lt;20;i++) {</span>
+<span class="nc" id="L663">            labels[i].setText(&quot;-&quot;);</span>
+<span class="nc" id="L664">            labels[i].setTextFill(Color.web(&quot;#000000&quot;));</span>
+        }
+<span class="nc" id="L666">    }</span>
+
+    /**
+     * setwrongtrue is a method used to put V(true) or X(false) depending on the answer for the last question in the
+     * label corresponding to the index number of the question.
+     * @param answer true or false based on the last answer
+     */
+    public void setwrongtrue(boolean answer){
+<span class="nc" id="L674">        Label[] labels= new Label[]{box1,box2,box3,box4,box5,box6,box7,box8,box9,box10,box11,box12,box13,box14,box15,</span>
+                box16,box17,box18,box19,box20};
+<span class="nc bnc" id="L676" title="All 2 branches missed.">        if(answer==true) {</span>
+<span class="nc" id="L677">            labels[question_index-1].setText(Emotion.CHECK.toString());</span>
+<span class="nc" id="L678">            labels[question_index-1].setTextFill(Color.web(&quot;#61ab61&quot;));</span>
+        }
+        else {
+<span class="nc" id="L681">            labels[question_index-1].setText(Emotion.WRONG.toString());</span>
+<span class="nc" id="L682">            labels[question_index-1].setTextFill(Color.web(&quot;#e86464&quot;));</span>
+        }
+<span class="nc" id="L684">    }</span>
+
+    /**
+     * decreasTime is a function used to update the timebar after each second
+     * @param timeRemaining is the remaining time in the timer
+     * @param progress is a timebar property
+     */
+    public void decreaseTime(long timeRemaining, double progress){
+<span class="nc bnc" id="L692" title="All 2 branches missed.">        if(timeRemaining == 21){</span>
+<span class="nc" id="L693">            timeBar.setStyle(&quot;-fx-accent: #a8cbe6;&quot;);}</span>
+<span class="nc bnc" id="L694" title="All 4 branches missed.">        if(timeRemaining &lt;= 20 &amp;&amp; timeRemaining &gt;= 15){</span>
+<span class="nc" id="L695">            timeBar.setStyle(&quot;-fx-accent: #61ab61;&quot;);}</span>
+<span class="nc bnc" id="L696" title="All 4 branches missed.">        else if(timeRemaining &lt; 15 &amp;&amp; timeRemaining &gt;= 10){</span>
+<span class="nc" id="L697">            timeBar.setStyle(&quot;-fx-accent: #98d48a;&quot;);}</span>
+<span class="nc bnc" id="L698" title="All 4 branches missed.">        else if(timeRemaining &lt; 10 &amp;&amp; timeRemaining &gt;= 8){</span>
+<span class="nc" id="L699">            timeBar.setStyle(&quot;-fx-accent: #fff194;&quot;);}</span>
+<span class="nc bnc" id="L700" title="All 4 branches missed.">        else if (timeRemaining &lt; 8 &amp;&amp; timeRemaining &gt;= 5){</span>
+<span class="nc" id="L701">            timeBar.setStyle(&quot;-fx-accent: #fcce6a;&quot;);}</span>
+<span class="nc bnc" id="L702" title="All 4 branches missed.">        else if(timeRemaining &lt; 5 &amp;&amp; timeRemaining &gt;= 2){</span>
+<span class="nc" id="L703">            timeBar.setStyle(&quot;-fx-accent: #fcad5b;&quot;);}</span>
+<span class="nc bnc" id="L704" title="All 4 branches missed.">        else if(timeRemaining &lt; 2 &amp;&amp; timeRemaining &gt;= 0){</span>
+<span class="nc" id="L705">            timeBar.setStyle(&quot;-fx-accent: #e86464;&quot;);}</span>
+<span class="nc" id="L706">        timeBar.setProgress(progress);</span>
+<span class="nc" id="L707">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

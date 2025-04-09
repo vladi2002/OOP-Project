@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="9.3">
+<file name="C:\Portable\Projects\repository-template\server\src\test\java\server\api\ActivitiesControllerTest.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\server\src\test\java\server\api\MultiplayerControllerTest.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\server\src\test\java\server\api\PlayerControllerTest.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\server\src\test\java\server\api\QuoteControllerTest.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\server\src\test\java\server\api\TestActivitiesRepository.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\server\src\test\java\server\api\TestMultiplayerRepository.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\server\src\test\java\server\api\TestPlayerRepository.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\server\src\test\java\server\api\TestQuoteRepository.java">
+</file>
+</checkstyle>

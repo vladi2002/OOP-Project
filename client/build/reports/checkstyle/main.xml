@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="9.3">
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\AnswerResponse.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\IRandom.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\Main.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\MultiplayerGameManager.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\MyFXML.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\MyModule.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\Question.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\RandomNumber.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\scenes\AddPlayerCtrl.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\scenes\AddQuoteCtrl.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\scenes\Emotion.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\scenes\Helpbutton.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\scenes\Leaderboard.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\scenes\LeaveGame.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\scenes\MainCtrl.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\scenes\MultiplayerLeaderboard.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\scenes\MultiplayerScreen.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\scenes\MultiplayerTimer.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\scenes\PlayersOverviewCtrl.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\scenes\QuoteOverviewCtrl.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\scenes\SinglePlayer.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\scenes\SinglePlayerTimer.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\scenes\SplashScreen.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\scenes\WaitingroomScene.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\utils\IServerUtils.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\utils\MultiplayerGameManagerDeserializer.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\utils\MultiplayerGameManagerSerializer.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\client\src\main\java\client\utils\ServerUtils.java">
+</file>
+</checkstyle>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MultiplayerLeaderboard.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">client</a> &gt; <a href="index.source.html" class="el_package">client.scenes</a> &gt; <span class="el_source">MultiplayerLeaderboard.java</span></div><h1>MultiplayerLeaderboard.java</h1><pre class="source lang-java linenums">package client.scenes;
+import client.utils.ServerUtils;
+import com.google.inject.Inject;
+import commons.Multiplayer;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+    public class MultiplayerLeaderboard {
+
+        private final ServerUtils server;
+        private final MainCtrl mainCtrl;
+<span class="nc" id="L18">        private int intermediary = 1;</span>
+
+        @FXML
+        private Label leaderboardposition1;
+        @FXML
+        private Label leaderboardposition2;
+        @FXML
+        private Label leaderboardposition3;
+        @FXML
+        private Label leaderboardposition4;
+        @FXML
+        private Label leaderboardposition5;
+        @FXML
+        private Label leaderboardposition6;
+        @FXML
+        private Label leaderboardposition7;
+        @FXML
+        private Label leaderboardposition8;
+        @FXML
+        private Label leaderboardposition9;
+        @FXML
+        private Label leaderboardposition10;
+        @FXML
+        private Label leaderboardposition11;
+        @FXML
+        private Button goToMenu;
+        @FXML
+        private ProgressIndicator progressIndicator;
+
+        private MultiplayerScreen playerSetup;
+
+        @Inject
+<span class="nc" id="L50">        public MultiplayerLeaderboard(ServerUtils server, MainCtrl mainCtrl) {</span>
+<span class="nc" id="L51">            this.mainCtrl = mainCtrl;</span>
+<span class="nc" id="L52">            this.server = server;</span>
+<span class="nc" id="L53">        }</span>
+
+        /**
+         * goback is a function accessed from the leave button which opens the splash screen
+         */
+        public void goback() {
+<span class="nc" id="L59">            refresh();</span>
+<span class="nc" id="L60">            playerSetup.resetGameSetting();</span>
+<span class="nc" id="L61">            mainCtrl.showOverview();</span>
+<span class="nc" id="L62">        }</span>
+
+        /**
+         * load is a method used to add the players from the server in the leaderboard's labels making bold the labels
+         * containing the name of the player who finished the game.
+         * @param player is the user which has saved the score and the name
+         */
+        public void load(Multiplayer player, MultiplayerScreen ms) {
+<span class="nc" id="L70">            playerSetup = ms;</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            if(intermediary == 1) {</span>
+<span class="nc" id="L72">                goToMenu.setVisible(false);</span>
+<span class="nc" id="L73">                intermediary = 0;</span>
+<span class="nc" id="L74">                progressIndicator.setVisible(true);</span>
+            }
+            else{
+<span class="nc" id="L77">                goToMenu.setVisible(true);</span>
+<span class="nc" id="L78">                progressIndicator.setVisible(false);</span>
+            }
+<span class="nc" id="L80">            Label[] labels= {leaderboardposition1, leaderboardposition2, leaderboardposition3, leaderboardposition4, leaderboardposition5, leaderboardposition6, leaderboardposition7, leaderboardposition8, leaderboardposition9, leaderboardposition10};</span>
+<span class="nc" id="L81">            var players = server.getMultiplayersByGameID(player.getGameID());</span>
+<span class="nc" id="L82">            List&lt;Multiplayer&gt; sortedPlayer = players.stream()</span>
+<span class="nc" id="L83">                    .sorted(Comparator.comparing(Multiplayer::getScore).reversed())</span>
+<span class="nc" id="L84">                    .collect(Collectors.toList());</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            for(int i = 0; i &lt; sortedPlayer.size(); i++) {</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                if (sortedPlayer.size() &gt; i) {</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">                    if (i &lt; 10){</span>
+<span class="nc" id="L88">                        labels[i].setText((i+1)+&quot;. &quot;+sortedPlayer.get(i).getName()+&quot;: &quot;+sortedPlayer.get(i).getScore());</span>
+                    }
+<span class="nc bnc" id="L90" title="All 2 branches missed.">                    if (sortedPlayer.get(i).equals(player)) {</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">                        if(i &gt; 10) {</span>
+<span class="nc" id="L92">                            leaderboardposition9.setText(&quot;...&quot;);</span>
+<span class="nc" id="L93">                            leaderboardposition11.setText(&quot;...&quot;);</span>
+<span class="nc" id="L94">                            leaderboardposition10.setText((i+1)+&quot;. &quot;+sortedPlayer.get(i).getName()+&quot;: &quot;+sortedPlayer.get(i).getScore());</span>
+<span class="nc" id="L95">                            leaderboardposition10.setStyle(&quot;-fx-font-weight: bold&quot;);</span>
+
+                        }
+                        else {
+<span class="nc" id="L99">                            labels[i].setStyle(&quot;-fx-font-weight: bold&quot;);</span>
+<span class="nc" id="L100">                            leaderboardposition11.setText(&quot;&quot;);</span>
+                        }
+                    }
+
+                }
+                else {
+<span class="nc" id="L106">                    labels[i].setText((i+1)+&quot;.&quot;);</span>
+                }
+            }
+<span class="nc" id="L109">        }</span>
+
+        /**
+         * refresh is a method used to initialize the style of the labels
+         */
+        public void refresh() {
+<span class="nc" id="L115">            leaderboardposition1.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L116">            leaderboardposition2.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L117">            leaderboardposition3.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L118">            leaderboardposition4.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L119">            leaderboardposition5.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L120">            leaderboardposition6.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L121">            leaderboardposition7.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L122">            leaderboardposition8.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L123">            leaderboardposition9.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L124">            leaderboardposition10.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L125">            leaderboardposition11.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+
+<span class="nc" id="L127">        }</span>
+    }
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

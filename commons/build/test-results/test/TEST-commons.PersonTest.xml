@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="commons.PersonTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2022-04-07T19:44:04" hostname="LAPTOP-VLADI2" time="0.009">
+  <properties/>
+  <testcase name="notEqualsHashCode()" classname="commons.PersonTest" time="0.005"/>
+  <testcase name="equalsHashCode()" classname="commons.PersonTest" time="0.0"/>
+  <testcase name="hasToString()" classname="commons.PersonTest" time="0.001"/>
+  <testcase name="checkConstructor()" classname="commons.PersonTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

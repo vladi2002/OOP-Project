@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="server.api.PlayerControllerTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2022-04-07T19:44:08" hostname="LAPTOP-VLADI2" time="0.025">
+  <properties/>
+  <testcase name="cannotAddNullPlayer()" classname="server.api.PlayerControllerTest" time="0.001"/>
+  <testcase name="cannotGetNegId()" classname="server.api.PlayerControllerTest" time="0.0"/>
+  <testcase name="addTest()" classname="server.api.PlayerControllerTest" time="0.003"/>
+  <testcase name="getByIdTest()" classname="server.api.PlayerControllerTest" time="0.001"/>
+  <testcase name="cannotAddEmptyName()" classname="server.api.PlayerControllerTest" time="0.001"/>
+  <testcase name="getAllTest()" classname="server.api.PlayerControllerTest" time="0.016"/>
+  <testcase name="databaseIsUsed()" classname="server.api.PlayerControllerTest" time="0.001"/>
+  <testcase name="idIsRetrieved()" classname="server.api.PlayerControllerTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

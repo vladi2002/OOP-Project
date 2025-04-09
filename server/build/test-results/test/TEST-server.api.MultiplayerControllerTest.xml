@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="server.api.MultiplayerControllerTest" tests="17" skipped="0" failures="0" errors="0" timestamp="2022-04-07T19:44:08" hostname="LAPTOP-VLADI2" time="0.017">
+  <properties/>
+  <testcase name="cannotGetNegId()" classname="server.api.MultiplayerControllerTest" time="0.001"/>
+  <testcase name="addTest()" classname="server.api.MultiplayerControllerTest" time="0.002"/>
+  <testcase name="updateNullTest()" classname="server.api.MultiplayerControllerTest" time="0.001"/>
+  <testcase name="getByIdTest()" classname="server.api.MultiplayerControllerTest" time="0.001"/>
+  <testcase name="cannotAddEmptyName()" classname="server.api.MultiplayerControllerTest" time="0.0"/>
+  <testcase name="deleteAllPlayers()" classname="server.api.MultiplayerControllerTest" time="0.0"/>
+  <testcase name="updateTest()" classname="server.api.MultiplayerControllerTest" time="0.0"/>
+  <testcase name="cannotAddNullMultiplayer()" classname="server.api.MultiplayerControllerTest" time="0.0"/>
+  <testcase name="updateEmptyTest()" classname="server.api.MultiplayerControllerTest" time="0.001"/>
+  <testcase name="getMultiplayersByGameIdTest()" classname="server.api.MultiplayerControllerTest" time="0.001"/>
+  <testcase name="getAllTest()" classname="server.api.MultiplayerControllerTest" time="0.0"/>
+  <testcase name="deletePlayerTest()" classname="server.api.MultiplayerControllerTest" time="0.0"/>
+  <testcase name="databaseIsUsed()" classname="server.api.MultiplayerControllerTest" time="0.0"/>
+  <testcase name="idIsRetrieved()" classname="server.api.MultiplayerControllerTest" time="0.001"/>
+  <testcase name="sendTest()" classname="server.api.MultiplayerControllerTest" time="0.0"/>
+  <testcase name="setMultiplayersToGameIdTest()" classname="server.api.MultiplayerControllerTest" time="0.001"/>
+  <testcase name="addPlayerTest()" classname="server.api.MultiplayerControllerTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

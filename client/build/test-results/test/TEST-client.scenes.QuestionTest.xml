@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="client.scenes.QuestionTest" tests="21" skipped="0" failures="0" errors="0" timestamp="2022-04-07T19:44:02" hostname="LAPTOP-VLADI2" time="0.035">
+  <properties/>
+  <testcase name="estimate()" classname="client.scenes.QuestionTest" time="0.01"/>
+  <testcase name="guessTheEnergy()" classname="client.scenes.QuestionTest" time="0.001"/>
+  <testcase name="comparisonMax()" classname="client.scenes.QuestionTest" time="0.001"/>
+  <testcase name="comparisonMin()" classname="client.scenes.QuestionTest" time="0.0"/>
+  <testcase name="testInRangeGet()" classname="client.scenes.QuestionTest" time="0.001"/>
+  <testcase name="testGetAnswers()" classname="client.scenes.QuestionTest" time="0.0"/>
+  <testcase name="testGetType()" classname="client.scenes.QuestionTest" time="0.0"/>
+  <testcase name="inRangeGet()" classname="client.scenes.QuestionTest" time="0.001"/>
+  <testcase name="getType()" classname="client.scenes.QuestionTest" time="0.001"/>
+  <testcase name="equateEnergy()" classname="client.scenes.QuestionTest" time="0.001"/>
+  <testcase name="choiceFromSelection()" classname="client.scenes.QuestionTest" time="0.003"/>
+  <testcase name="getAnswers()" classname="client.scenes.QuestionTest" time="0.0"/>
+  <testcase name="generateQuestion()" classname="client.scenes.QuestionTest" time="0.0"/>
+  <testcase name="notInRange()" classname="client.scenes.QuestionTest" time="0.001"/>
+  <testcase name="inRangeCheck()" classname="client.scenes.QuestionTest" time="0.0"/>
+  <testcase name="testGetCorrectAnswer()" classname="client.scenes.QuestionTest" time="0.001"/>
+  <testcase name="testGetQuestionText()" classname="client.scenes.QuestionTest" time="0.001"/>
+  <testcase name="getQuestionText()" classname="client.scenes.QuestionTest" time="0.001"/>
+  <testcase name="testInRange()" classname="client.scenes.QuestionTest" time="0.0"/>
+  <testcase name="inRange()" classname="client.scenes.QuestionTest" time="0.0"/>
+  <testcase name="getCorrectAnswer()" classname="client.scenes.QuestionTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

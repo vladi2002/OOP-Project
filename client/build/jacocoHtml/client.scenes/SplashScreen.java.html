@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SplashScreen.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">client</a> &gt; <a href="index.source.html" class="el_package">client.scenes</a> &gt; <span class="el_source">SplashScreen.java</span></div><h1>SplashScreen.java</h1><pre class="source lang-java linenums">package client.scenes;
+
+import client.utils.ServerUtils;
+import com.google.inject.Inject;
+import commons.Multiplayer;
+import commons.Player;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class SplashScreen {
+
+    private final ServerUtils server;
+    private final MainCtrl mainCtrl;
+
+    @FXML
+    private TextField name;
+
+    @FXML
+    private Label lead1;
+
+    @FXML
+    private Label lead2;
+
+    @FXML
+    private Label lead3;
+
+    @FXML
+    private Label lead4;
+
+    @FXML
+    private Label lead5;
+
+    @FXML
+    private Label lead6;
+
+    @FXML
+    private Label lead7;
+
+    @FXML
+    private Label lead8;
+
+    @FXML
+    private Label lead9;
+
+    @FXML
+    private Label lead10;
+
+    @FXML
+    private TextField url;
+
+    @Inject
+<span class="nc" id="L58">    public SplashScreen(ServerUtils server, MainCtrl mainCtrl) {</span>
+<span class="nc" id="L59">        this.mainCtrl = mainCtrl;</span>
+<span class="nc" id="L60">        this.server = server;</span>
+<span class="nc" id="L61">    }</span>
+
+    /**
+     * startsingle is the method used to start the single player mode. In this method, firstly we verify if the name
+     * text field exists. If it exists, we verify whether the string containing the name is empty or not. In case it is
+     * empty it will display an error, in other case, it will start the single player mode, adding the user to the
+     * single player database(when the singleplayer button is pressed).
+     */
+    public void startsingle() {
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if(name != null) {</span>
+<span class="nc" id="L71">            String nm = name.getText();</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">            if (nm.isEmpty()) {</span>
+<span class="nc" id="L73">                Alert alert = new Alert(Alert.AlertType.ERROR);</span>
+<span class="nc" id="L74">                alert.setContentText(&quot;Fill all the required fields!&quot;);</span>
+<span class="nc" id="L75">                alert.showAndWait();</span>
+<span class="nc" id="L76">            }</span>
+            else{
+<span class="nc" id="L78">                Player p = new Player(nm);</span>
+<span class="nc" id="L79">                p = server.addPlayer(p);</span>
+<span class="nc" id="L80">                mainCtrl.singlePlayerScreen(p);</span>
+            }
+
+        }
+
+<span class="nc" id="L85">    }</span>
+
+
+    /**
+     * startmulti is the method used to start the multiplayer mode. In this method, firstly we verify if the name text
+     * field exists. If it exists, we verify whether the string containing the name is empty, if it already exists in the
+     * waiting room or if the waiting room is full. In these cases we display a specific error depending on the encountered
+     * issue. In other case, it will start the waiting room scene, adding the user to the multiplayer database(when the
+     * multiplayer button is pressed)
+     */
+    public void startmulti() {
+<span class="nc bnc" id="L96" title="All 4 branches missed.">        if(url != null &amp;&amp; name != null){</span>
+<span class="nc" id="L97">            String port = url.getText();</span>
+<span class="nc" id="L98">            String n = name.getText();</span>
+<span class="nc bnc" id="L99" title="All 4 branches missed.">            if(port.isEmpty() || n.isEmpty()){</span>
+<span class="nc" id="L100">                Alert alert = new Alert(Alert.AlertType.ERROR);</span>
+<span class="nc" id="L101">                alert.setContentText(&quot;Fill all the required fields!&quot;);</span>
+<span class="nc" id="L102">                alert.showAndWait();</span>
+<span class="nc" id="L103">            }</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">            else if (samename(n)) {</span>
+<span class="nc" id="L105">                Alert alert = new Alert(Alert.AlertType.ERROR);</span>
+<span class="nc" id="L106">                alert.setContentText(&quot;This name already exists!&quot;);</span>
+<span class="nc" id="L107">                alert.showAndWait();</span>
+<span class="nc" id="L108">            }</span>
+            else{
+
+<span class="nc" id="L111">                server.setUrl(port);</span>
+<span class="nc" id="L112">                List&lt;Multiplayer&gt; waitingPlayers = null;</span>
+                try {
+                    //only works with &quot;8080&quot; for now
+<span class="nc" id="L115">                    waitingPlayers = server.getMultiplayersByGameID(0);</span>
+                }
+<span class="nc" id="L117">                catch (RuntimeException e){</span>
+<span class="nc" id="L118">                    Alert alert = new Alert(Alert.AlertType.ERROR);</span>
+<span class="nc" id="L119">                    alert.setContentText(&quot;Can't connect to server, choose an other one!&quot;);</span>
+<span class="nc" id="L120">                    alert.showAndWait();</span>
+<span class="nc" id="L121">                    server.setToDefaultServer();</span>
+<span class="nc" id="L122">                    return;</span>
+<span class="nc" id="L123">                }</span>
+
+<span class="nc bnc" id="L125" title="All 2 branches missed.">                if(waitingPlayers.size() &gt;= 10){</span>
+<span class="nc" id="L126">                    Alert alert = new Alert(Alert.AlertType.ERROR);</span>
+<span class="nc" id="L127">                    alert.setContentText(&quot;Waiting Room is full, please join later.&quot;);</span>
+<span class="nc" id="L128">                    alert.showAndWait();</span>
+<span class="nc" id="L129">                    return;</span>
+                }
+
+
+<span class="nc" id="L133">                String sc = &quot;ws://localhost:&quot;+port+&quot;/websocket&quot;;</span>
+                try {
+<span class="nc" id="L135">                    server.refreshConnection(sc);</span>
+                }
+<span class="nc" id="L137">                catch (Exception e){</span>
+<span class="nc" id="L138">                    Alert alert = new Alert(Alert.AlertType.ERROR);</span>
+<span class="nc" id="L139">                    alert.setContentText(&quot;Can't connect to server, choose an other one!&quot;);</span>
+<span class="nc" id="L140">                    alert.showAndWait();</span>
+
+<span class="nc" id="L142">                    return;</span>
+<span class="nc" id="L143">                }</span>
+
+<span class="nc" id="L145">                Multiplayer p = new Multiplayer(n);</span>
+<span class="nc" id="L146">                server.send(&quot;/app/multiplayers&quot;, p);</span>
+<span class="nc" id="L147">                mainCtrl.waiting();</span>
+
+            }
+        }
+<span class="nc" id="L151">    }</span>
+
+    /**
+     * samename is the method used to verify if player's name already appears in the waiting room list of players
+     * @param name is the string containing the name of the player
+     * @return false or true depending on the list of names in the waiting room and the player's name
+     */
+    public boolean samename(String name){
+<span class="nc" id="L159">        List&lt;Multiplayer&gt; mlist = server.getMultiplayersByGameID(0);</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">        if(!mlist.isEmpty()){</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">            for(int i = 0; i &lt; mlist.size(); i++){</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">                if(name.equals(mlist.get(i).getName())) return true;</span>
+            }
+        }
+<span class="nc" id="L165">        return false;</span>
+    }
+
+    /**
+     * refresh is the method used to display the top ten players from the database and their scores. The leaderboard is
+     * automaticaly modified when the splash screen is accessed.
+     */
+    public void refresh() {
+<span class="nc" id="L173">        Label[] labels= {lead1, lead2, lead3, lead4, lead5, lead6, lead7, lead8, lead9, lead10};</span>
+<span class="nc" id="L174">        var players = server.getPlayers();</span>
+<span class="nc" id="L175">        List&lt;Player&gt; sortedPlayer = players.stream()</span>
+<span class="nc" id="L176">                .sorted(Comparator.comparing(Player::getScore).reversed())</span>
+<span class="nc" id="L177">                .collect(Collectors.toList());</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">        for(int i = 0; i &lt; 10; i++) {</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">            if (sortedPlayer.size() &gt; i) {</span>
+<span class="nc" id="L180">                labels[i].setText((i+1)+&quot;. &quot;+sortedPlayer.get(i).getName()+&quot;: &quot;+sortedPlayer.get(i).getScore());</span>
+            }
+            else {
+<span class="nc" id="L183">                labels[i].setText((i+1)+&quot;.&quot;);</span>
+            }
+        }
+<span class="nc" id="L186">    }</span>
+
+    /**
+     * starthelp is the method used to display the help screen about the game(when the help button is pressed).
+     */
+    public void starthelp() {
+<span class="nc" id="L192">        mainCtrl.showHelp();</span>
+<span class="nc" id="L193">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

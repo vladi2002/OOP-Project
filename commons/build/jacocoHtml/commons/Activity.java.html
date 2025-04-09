@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Activity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">commons</a> &gt; <a href="index.source.html" class="el_package">commons</a> &gt; <span class="el_source">Activity.java</span></div><h1>Activity.java</h1><pre class="source lang-java linenums">package commons;
+
+import javax.persistence.*;
+
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
+
+@Entity
+public class Activity {
+
+    @Id
+    public long id;
+
+    //manually generated id to ensure that range of activities is between 1 and N
+<span class="fc" id="L17">    public static long idgen = 1;</span>
+
+    @Column(nullable = false)
+    public String title;
+
+    @Column(nullable = false)
+    public int consumption_in_wh;
+
+    public String source;
+
+    public String title_id;
+
+    public String image_path;
+
+    /**
+     * Default constructor
+     */
+<span class="fc" id="L34">    public Activity() {</span>
+<span class="fc" id="L35">        this.title = &quot;&quot;;</span>
+<span class="fc" id="L36">        this.consumption_in_wh = 0;</span>
+<span class="fc" id="L37">        this.source = &quot;&quot;;</span>
+<span class="fc" id="L38">        this.title_id = &quot;&quot;;</span>
+<span class="fc" id="L39">        this.image_path = &quot;&quot;;</span>
+
+<span class="fc" id="L41">        this.id = idgen;</span>
+<span class="fc" id="L42">        idgen++;</span>
+<span class="fc" id="L43">    }</span>
+
+    /**
+     * Constructor with parameters
+     * @param title the description of the activity
+     * @param consumption_in_wh the energy the activity needs in wh
+     * @param source the source of the information
+     */
+<span class="fc" id="L51">    public Activity(String title, int consumption_in_wh, String source) {</span>
+<span class="fc" id="L52">        this.title = title;</span>
+<span class="fc" id="L53">        this.consumption_in_wh = consumption_in_wh;</span>
+<span class="fc" id="L54">        this.source = source;</span>
+<span class="fc" id="L55">        this.title_id = &quot;&quot;;</span>
+<span class="fc" id="L56">        this.image_path = &quot;&quot;;</span>
+
+<span class="fc" id="L58">        this.id = idgen;</span>
+<span class="fc" id="L59">        idgen++;</span>
+<span class="fc" id="L60">    }</span>
+
+
+    /**
+     * Constructor with parameters
+     * @param title the description of the activity
+     * @param consumption_in_wh the energy the activity needs in wh
+     * @param source the source of the information
+     * @param title_id a string value for the id
+     * @param image_path the path to the corresponding image
+     */
+<span class="nc" id="L71">    public Activity(String title, int consumption_in_wh, String source, String title_id, String image_path) {</span>
+<span class="nc" id="L72">        this.title = title;</span>
+<span class="nc" id="L73">        this.consumption_in_wh = consumption_in_wh;</span>
+<span class="nc" id="L74">        this.source = source;</span>
+<span class="nc" id="L75">        this.title_id = title_id;</span>
+<span class="nc" id="L76">        this.image_path = image_path;</span>
+
+<span class="nc" id="L78">        this.id = idgen;</span>
+<span class="nc" id="L79">        idgen++;</span>
+<span class="nc" id="L80">    }</span>
+
+    /**
+     * Get the title of the activity
+     * @return the description of the activity
+     */
+    public String getTitle() {
+<span class="fc" id="L87">        return title;</span>
+    }
+
+    /**
+     * Get the consumption of the activity
+     * @return the energy the activity needs in wh
+     */
+    public int getConsumption_in_wh() {
+<span class="fc" id="L95">        return consumption_in_wh;</span>
+    }
+
+    /**
+     * Get the id of the activity
+     * @return the id of the activity which identifies it
+     */
+    public long getId(){
+<span class="fc" id="L103">        return id;</span>
+    }
+
+
+    /**
+     * Get the String id of the activity
+     * @return the string id of the activity
+     */
+    public String getTitle_id() {
+<span class="nc" id="L112">        return title_id;</span>
+    }
+
+    /**
+     * Get the image path of the activity
+     * @return the image path of the activity
+     */
+    public String getImage_path() {
+<span class="nc" id="L120">        return image_path;</span>
+    }
+
+    /**
+     * Compares two activity and decides if they are equal
+     * @param o the other activity to compare to
+     * @return true or false based on the equality
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="fc bfc" id="L130" title="All 2 branches covered.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L131" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="fc" id="L132">        Activity activity = (Activity) o;</span>
+<span class="fc bfc" id="L133" title="All 4 branches covered.">        return consumption_in_wh == activity.consumption_in_wh &amp;&amp; title.equals(activity.title);</span>
+    }
+
+    /**
+     * Generate hashcode for the activity
+     * @return the hashcode
+     */
+    @Override
+    public int hashCode() {
+<span class="fc" id="L142">        return HashCodeBuilder.reflectionHashCode(this);</span>
+    }
+
+    /**
+     * Transform the activity into a String format
+     * @return the String format of the activity
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L151">        return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

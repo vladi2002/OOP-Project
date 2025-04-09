@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WebsocketConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">server</a> &gt; <a href="index.source.html" class="el_package">server</a> &gt; <span class="el_source">WebsocketConfig.java</span></div><h1>WebsocketConfig.java</h1><pre class="source lang-java linenums">package server;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+
+@Configuration
+@EnableWebSocketMessageBroker
+<span class="nc" id="L11">public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {</span>
+
+    /**
+     * Adds websockets endpoint to a StompEndpointRegistry
+     * @param reg is the StompEndpointRegistry
+     */
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry reg){
+<span class="nc" id="L19">        reg.addEndpoint(&quot;/websocket&quot;);</span>
+<span class="nc" id="L20">    }</span>
+
+    /**
+     * Configures the paths that websocket messages get sent and recieved along
+     * Messages are recieved on /topic, and can be sent from /topic to bypass the server,
+     * whereas messages sent through /app are processed by the server and sent back through /topic
+     * @param config is the MessageBrokerRegistry that configures the paths.
+     */
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry config){
+<span class="nc" id="L30">        config.enableSimpleBroker(&quot;/topic&quot;);</span>
+<span class="nc" id="L31">        config.setApplicationDestinationPrefixes(&quot;/app&quot;);</span>
+<span class="nc" id="L32">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

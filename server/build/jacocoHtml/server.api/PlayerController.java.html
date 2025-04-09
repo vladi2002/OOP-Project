@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PlayerController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">server</a> &gt; <a href="index.source.html" class="el_package">server.api</a> &gt; <span class="el_source">PlayerController.java</span></div><h1>PlayerController.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2021 Delft University of Technology
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package server.api;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import commons.Player;
+import org.springframework.web.context.request.async.DeferredResult;
+import server.database.PlayerRepository;
+
+@RestController
+@RequestMapping(&quot;/api/players&quot;)
+public class PlayerController {
+
+    private final PlayerRepository repo;
+
+<span class="fc" id="L37">    private Map&lt;Object, Consumer&lt;Player&gt;&gt; listenersPlayers = new HashMap&lt;&gt;();</span>
+
+    /**
+     * Constructor for the Controller with parameters
+     * @param repo the Player Repository that the controller accesses - exclusively used for single player entries
+     */
+<span class="fc" id="L43">    public PlayerController(PlayerRepository repo) {</span>
+<span class="fc" id="L44">        this.repo = repo;</span>
+<span class="fc" id="L45">    }</span>
+
+    /**
+     * The get mapping for the root of the player repository's api (localhost:PORT/api/players/),
+     * which finds all records in the repository
+     * @return the list of the (single) players stored in the player repository
+     */
+    @GetMapping(path = { &quot;&quot;, &quot;/&quot; })
+    public List&lt;Player&gt; getAll() {
+<span class="fc" id="L54">        return repo.findAll();</span>
+    }
+
+    /**
+     * The get mapping for the path: localhost:PORT/api/players/ID (where ID is the id),
+     * finds the record corresponding to a desired id from the players repository
+     * @param id the number identifying the desired player
+     * @return the Player corresponding to the id parameter
+     */
+    @GetMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Player&gt; getById(@PathVariable(&quot;id&quot;) long id) {
+<span class="fc bfc" id="L65" title="All 4 branches covered.">        if (id &lt; 0 || !repo.existsById(id)) {</span>
+<span class="fc" id="L66">            return ResponseEntity.badRequest().build();</span>
+        }
+<span class="fc" id="L68">        return ResponseEntity.ok(repo.getById(id));</span>
+    }
+
+    /**
+     * The post mapping for the path: localhost:PORT/api/players/,
+     * which updates the repository by adding the entry of a new Player record
+     * @param player the record to be added
+     * @return the Player record that has been added to the database - note: this return
+     * is important because its id has been updated to become unique, and must be used in the future
+     * to access the added record
+     */
+    @PostMapping(path = { &quot;&quot;, &quot;/&quot; })
+    public ResponseEntity&lt;Player&gt; add(@RequestBody Player player) {
+
+<span class="fc bfc" id="L82" title="All 4 branches covered.">        if (player.name == null || player.name.equals(&quot;&quot;)) {</span>
+<span class="fc" id="L83">            return ResponseEntity.badRequest().build();</span>
+        }
+<span class="pc" id="L85">        listenersPlayers.forEach((k, l) -&gt; l.accept(player));</span>
+<span class="fc" id="L86">        Player saved = repo.save(player);</span>
+<span class="fc" id="L87">        return ResponseEntity.ok(saved);</span>
+    }
+
+    /**
+     * The get mapping for the path: localhost:PORT/api/multiplayers/updates/players,
+     * which returns the Player object that was previously added to the repo
+     * @return the Player record was added before as a deffered result (asynchronous)
+     */
+    @GetMapping(path = {&quot;/updates/players&quot;})
+    public DeferredResult&lt;ResponseEntity&lt;Player&gt;&gt; getUpdatesPlayer() {
+<span class="nc" id="L97">        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();</span>
+<span class="nc" id="L98">        var res = new DeferredResult&lt;ResponseEntity&lt;Player&gt;&gt;(5000L, noContent);</span>
+<span class="nc" id="L99">        var key = new Object();</span>
+<span class="nc" id="L100">        listenersPlayers.put(key, p -&gt; {</span>
+<span class="nc" id="L101">            res.setResult(ResponseEntity.ok(p));</span>
+<span class="nc" id="L102">        });</span>
+<span class="nc" id="L103">        res.onCompletion(() -&gt; {</span>
+<span class="nc" id="L104">            listenersPlayers.remove(key);</span>
+<span class="nc" id="L105">        });</span>
+<span class="nc" id="L106">        return res;</span>
+    }
+
+    /**
+     * The delete mapping for the path: localhost:PORT/api/players/ID (where ID is the id),
+     * which deletes the record corresponding to a certain id
+     * @param id the id of the player to be deleted
+     * @return a boolean specifying whether the operation was successful
+     */
+    @DeleteMapping(path = {&quot;/delete/{id}&quot;})
+    public boolean deletePlayer(@PathVariable(&quot;id&quot;) long id)
+    {
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        if(repo.existsById(id)){</span>
+<span class="nc" id="L119">            Player p = repo.getById(id);</span>
+<span class="nc" id="L120">            repo.delete(p);</span>
+<span class="nc" id="L121">            return true;</span>
+        }
+<span class="nc" id="L123">        return false;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

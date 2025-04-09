@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AddPlayerCtrl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">client</a> &gt; <a href="index.source.html" class="el_package">client.scenes</a> &gt; <span class="el_source">AddPlayerCtrl.java</span></div><h1>AddPlayerCtrl.java</h1><pre class="source lang-java linenums">package client.scenes;
+
+import client.utils.ServerUtils;
+import com.google.inject.Inject;
+import commons.Player;
+import jakarta.ws.rs.WebApplicationException;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Modality;
+
+public class AddPlayerCtrl {
+
+    private final ServerUtils server;
+    private final MainCtrl mainCtrl;
+
+    @FXML
+    private TextField name;
+
+    @FXML
+    private TextField score;
+
+    @Inject
+<span class="nc" id="L25">    public AddPlayerCtrl(ServerUtils server, MainCtrl mainCtrl) {</span>
+<span class="nc" id="L26">        this.mainCtrl = mainCtrl;</span>
+<span class="nc" id="L27">        this.server = server;</span>
+
+<span class="nc" id="L29">    }</span>
+
+    /**
+     * we clear the fields and show the overview screen
+     */
+    public void cancel() {
+<span class="nc" id="L35">        clearFields();</span>
+<span class="nc" id="L36">        mainCtrl.showPlayersOverview();</span>
+<span class="nc" id="L37">    }</span>
+
+    /**
+     * we check to see if we entered the details for a new player right
+     */
+    public void ok() {
+        try {
+<span class="nc" id="L44">            server.addPlayer(getPlayer());</span>
+<span class="nc" id="L45">        } catch (WebApplicationException e) {</span>
+
+<span class="nc" id="L47">            var alert = new Alert(Alert.AlertType.ERROR);</span>
+<span class="nc" id="L48">            alert.initModality(Modality.APPLICATION_MODAL);</span>
+<span class="nc" id="L49">            alert.setContentText(e.getMessage());</span>
+<span class="nc" id="L50">            alert.showAndWait();</span>
+<span class="nc" id="L51">            return;</span>
+<span class="nc" id="L52">        }</span>
+
+<span class="nc" id="L54">        clearFields();</span>
+<span class="nc" id="L55">        mainCtrl.showPlayersOverview();</span>
+<span class="nc" id="L56">    }</span>
+
+    /**
+     * creates a player from the entered score and name
+     * @return the new player
+     */
+    private Player getPlayer() {
+<span class="nc" id="L63">        var n = name.getText();</span>
+<span class="nc" id="L64">        var s = Integer.parseInt(score.getText());</span>
+<span class="nc" id="L65">        return new Player(n, s);</span>
+    }
+
+    /**
+     * clears the name and score fields
+     */
+    private void clearFields() {
+<span class="nc" id="L72">        name.clear();</span>
+<span class="nc" id="L73">        score.clear();</span>
+<span class="nc" id="L74">    }</span>
+
+    /**
+     * if enter - check it, otherwise cancel action
+     * @param e the event that got registered with the pressing of the key
+     */
+    public void keyPressed(KeyEvent e) {
+<span class="nc bnc" id="L81" title="All 3 branches missed.">        switch (e.getCode()) {</span>
+            case ENTER:
+<span class="nc" id="L83">                ok();</span>
+<span class="nc" id="L84">                break;</span>
+            case ESCAPE:
+<span class="nc" id="L86">                cancel();</span>
+<span class="nc" id="L87">                break;</span>
+            default:
+                break;
+        }
+<span class="nc" id="L91">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

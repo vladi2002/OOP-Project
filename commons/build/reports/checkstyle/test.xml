@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="9.3">
+<file name="C:\Portable\Projects\repository-template\commons\src\test\java\commons\ActivityTest.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\commons\src\test\java\commons\MultiplayerTest.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\commons\src\test\java\commons\PersonTest.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\commons\src\test\java\commons\PlayerTest.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\commons\src\test\java\commons\QuoteTest.java">
+</file>
+</checkstyle>

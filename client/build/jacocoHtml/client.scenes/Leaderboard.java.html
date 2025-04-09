@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Leaderboard.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">client</a> &gt; <a href="index.source.html" class="el_package">client.scenes</a> &gt; <span class="el_source">Leaderboard.java</span></div><h1>Leaderboard.java</h1><pre class="source lang-java linenums">package client.scenes;
+
+import client.utils.ServerUtils;
+import com.google.inject.Inject;
+import commons.Player;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Leaderboard {
+
+    private final ServerUtils server;
+    private final MainCtrl mainCtrl;
+
+    @FXML
+    private Label label1;
+    @FXML
+    private Label label2;
+    @FXML
+    private Label label3;
+    @FXML
+    private Label label4;
+    @FXML
+    private Label label5;
+    @FXML
+    private Label label6;
+    @FXML
+    private Label label7;
+    @FXML
+    private Label label8;
+    @FXML
+    private Label label9;
+    @FXML
+    private Label label10;
+    @FXML
+    private Label label11;
+    private SinglePlayer singleplayerScreen;
+
+    @Inject
+<span class="nc" id="L43">    public Leaderboard(ServerUtils server, MainCtrl mainCtrl) {</span>
+<span class="nc" id="L44">        this.mainCtrl = mainCtrl;</span>
+<span class="nc" id="L45">        this.server = server;</span>
+<span class="nc" id="L46">    }</span>
+
+    /**
+     * goback is a function accessed from the leave button which opens the splash screen
+     */
+    public void goback() {
+<span class="nc" id="L52">        refresh();</span>
+<span class="nc" id="L53">        singleplayerScreen.onLeave();</span>
+<span class="nc" id="L54">        mainCtrl.showOverview();</span>
+<span class="nc" id="L55">    }</span>
+
+    /**
+     * load is a method used to add the players from the server in the leaderboard's labels making bold the labels
+     * containing the name of the player who finished the game.
+     * @param player is the user which has saved the score and the name
+     */
+    public void load(Player player, SinglePlayer sp) {
+<span class="nc" id="L63">        this.singleplayerScreen = sp;</span>
+<span class="nc" id="L64">        Label[] labels= {label1, label2, label3, label4, label5, label6, label7, label8, label9, label10};</span>
+<span class="nc" id="L65">        var players = server.getPlayers();</span>
+<span class="nc" id="L66">        List&lt;Player&gt; sortedPlayer = players.stream()</span>
+<span class="nc" id="L67">                .sorted(Comparator.comparing(Player::getScore).reversed())</span>
+<span class="nc" id="L68">                .collect(Collectors.toList());</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        for(int i = 0; i &lt; sortedPlayer.size(); i++) {</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">            if (sortedPlayer.size() &gt; i) {</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">                if (i &lt; 10){</span>
+<span class="nc" id="L72">                    labels[i].setText((i+1)+&quot;. &quot;+sortedPlayer.get(i).getName()+&quot;: &quot;+sortedPlayer.get(i).getScore());</span>
+                }
+<span class="nc bnc" id="L74" title="All 2 branches missed.">                if (sortedPlayer.get(i).equals(player)) {</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">                    if(i &gt; 10) {</span>
+<span class="nc" id="L76">                        label9.setText(&quot;...&quot;);</span>
+<span class="nc" id="L77">                        label11.setText(&quot;...&quot;);</span>
+<span class="nc" id="L78">                        label10.setText((i+1)+&quot;. &quot;+sortedPlayer.get(i).getName()+&quot;: &quot;+sortedPlayer.get(i).getScore());</span>
+<span class="nc" id="L79">                        label10.setStyle(&quot;-fx-font-weight: bold&quot;);</span>
+
+                    }
+                    else {
+<span class="nc" id="L83">                        labels[i].setStyle(&quot;-fx-font-weight: bold&quot;);</span>
+<span class="nc" id="L84">                        label11.setText(&quot;&quot;);</span>
+                    }
+                }
+
+            }
+            else {
+<span class="nc" id="L90">                labels[i].setText((i+1)+&quot;.&quot;);</span>
+            }
+        }
+<span class="nc" id="L93">    }</span>
+
+    /**
+     * refresh is a method used to initialize the style of the labels
+     */
+    public void refresh() {
+<span class="nc" id="L99">        label1.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L100">        label2.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L101">        label3.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L102">        label4.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L103">        label5.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L104">        label6.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L105">        label7.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L106">        label8.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L107">        label9.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L108">        label10.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+<span class="nc" id="L109">        label11.setStyle(&quot;-fx-font-weight: normal&quot;);</span>
+
+<span class="nc" id="L111">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

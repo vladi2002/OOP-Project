@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="9.3">
+<file name="C:\Portable\Projects\repository-template\server\src\main\java\server\Config.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\server\src\main\java\server\Main.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\server\src\main\java\server\SomeController.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\server\src\main\java\server\WebsocketConfig.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\server\src\main\java\server\api\ActivitiesController.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\server\src\main\java\server\api\MultiplayerController.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\server\src\main\java\server\api\PlayerController.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\server\src\main\java\server\api\QuoteController.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\server\src\main\java\server\database\ActivitiesRepository.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\server\src\main\java\server\database\MultiplayerRepository.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\server\src\main\java\server\database\PlayerRepository.java">
+</file>
+<file name="C:\Portable\Projects\repository-template\server\src\main\java\server\database\QuoteRepository.java">
+</file>
+</checkstyle>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MultiplayerGameManagerDeserializer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">client</a> &gt; <a href="index.source.html" class="el_package">client.utils</a> &gt; <span class="el_source">MultiplayerGameManagerDeserializer.java</span></div><h1>MultiplayerGameManagerDeserializer.java</h1><pre class="source lang-java linenums">package client.utils;
+
+import client.MultiplayerGameManager;
+import client.Question;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import commons.Multiplayer;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MultiplayerGameManagerDeserializer extends StdDeserializer&lt;MultiplayerGameManager&gt; {
+
+<span class="nc" id="L19">    private ObjectMapper om = new ObjectMapper();</span>
+
+    public MultiplayerGameManagerDeserializer() {
+<span class="nc" id="L22">        this(null);</span>
+<span class="nc" id="L23">    }</span>
+
+    public MultiplayerGameManagerDeserializer(Class&lt;?&gt; vc) {
+<span class="nc" id="L26">        super(vc);</span>
+<span class="nc" id="L27">    }</span>
+
+    /**
+     * This method deserializes the JSON to its java MultiplayerGameManager object by listing its attributes gameID,
+     * list of questions, and list of players (array used here for ease)
+     *
+     * @param jp   the actual json parser that provides forward, read-only access to the JSON in a streaming way
+     * @param ctxt context for the deserialization of a single root-level value, single-threaded
+     * @return the object we want to receive on the other end
+     * @throws IOException             occurs when the data is corrupted or an error occured in the stream
+     * @throws JsonProcessingException class for all problems encountered when processing any JSON
+     */
+    public MultiplayerGameManager deserialize(JsonParser jp, DeserializationContext ctxt)
+            throws IOException, JsonProcessingException {
+<span class="nc" id="L41">        JsonNode node = jp.getCodec().readTree(jp);</span>
+
+<span class="nc" id="L43">        int testnum = node.get(&quot;gameID&quot;).asInt();</span>
+
+<span class="nc" id="L45">        List&lt;Question&gt; questionsList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L46">        var questionsNode = node.get(&quot;questions&quot;);</span>
+<span class="nc" id="L47">        int questionsSize = questionsNode.size();</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        for (int i = 0; i &lt; questionsSize; i++) {</span>
+<span class="nc" id="L49">            var tmp = questionsNode.get(i);</span>
+<span class="nc" id="L50">            var obj = tmp.asText();</span>
+<span class="nc" id="L51">            questionsList.add(om.readValue(questionsNode.get(i).toString(), Question.class));</span>
+        }
+
+<span class="nc" id="L54">        List&lt;Multiplayer&gt; playersList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L55">        var playersRaw = node.get(&quot;players&quot;);</span>
+<span class="nc" id="L56">        var playersSize = playersRaw.size();</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        for (int i = 0; i &lt; playersSize; i++) {</span>
+<span class="nc" id="L58">            playersList.add(om.readValue(playersRaw.get(i).toString(), Multiplayer.class));</span>
+        }
+
+<span class="nc" id="L61">        MultiplayerGameManager mgm = new MultiplayerGameManager(testnum);</span>
+
+<span class="nc" id="L63">        mgm.addPlayers(playersList);</span>
+<span class="nc" id="L64">        mgm.addQuestions(questionsList);</span>
+
+<span class="nc" id="L66">        return mgm;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

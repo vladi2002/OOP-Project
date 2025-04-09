@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="commons.ActivityTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2022-04-07T19:44:04" hostname="LAPTOP-VLADI2" time="0.091">
+  <properties/>
+  <testcase name="testNull()" classname="commons.ActivityTest" time="0.022"/>
+  <testcase name="testToString()" classname="commons.ActivityTest" time="0.06"/>
+  <testcase name="testID()" classname="commons.ActivityTest" time="0.002"/>
+  <testcase name="emptyConstructor()" classname="commons.ActivityTest" time="0.003"/>
+  <testcase name="testGetters()" classname="commons.ActivityTest" time="0.001"/>
+  <testcase name="fullConstructor()" classname="commons.ActivityTest" time="0.0"/>
+  <testcase name="testEquals()" classname="commons.ActivityTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
